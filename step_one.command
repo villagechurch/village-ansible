@@ -1,7 +1,9 @@
 #! /bin/zsh
 PATH=/usr/local/bin:$PATH
 
-# This script builds an ansible environment on macOS 10.14 for the purpose of building out an ansible control infrastructure.
+# This script prepares an install of macOS 10.14 for the purpose of building out an ansible control infrastructure. 
+
+# Run by double-clicking in Finder. If there is an issue run 'chmod +x step_one.command'
 
 # clear terminal clutter
 clear
@@ -66,7 +68,7 @@ fi
 # PHASE TWO - Python3
 echo ""
 echo "--- PHASE TWO ---"
-if brew list python3 >/dev/null; then
+if brew list python3 &>/dev/null; then
   echo "Python 3 is installed"
 else 
   brew install python3
@@ -80,11 +82,23 @@ else
 fi
 
 # PHASE TWO - Git
-if brew list git >/dev/null; then
+if brew list git &>/dev/null; then
   echo "Git is installed"
 else 
   brew install git
 fi
+
+# PHASE THREE - Get village-ansible
+echo ""
+echo "--- PHASE THREE ---"
+if [ -d ~/src/ ]; then
+  echo "~/src folder exists"
+else
+  mkdir ~/src
+fi
+
+cd ~/src
+git clone https://github.com/villagechurch/village-ansible.git
 
 # create some space for readability
 echo ""
