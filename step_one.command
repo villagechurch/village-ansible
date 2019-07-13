@@ -88,17 +88,23 @@ else
   brew install git
 fi
 
+echo ""
+echo "You're ready for Phase Three"
+
 # PHASE THREE - Get village-ansible
 echo ""
 echo "--- PHASE THREE ---"
 if [ -d ~/src/ ]; then
   echo "~/src folder exists"
+  if git -C ~/src/village-ansible rev-parse --verify master &>/dev/null; then
+    echo "village-ansible repository already exists"
+  else
+    git clone https://github.com/villagechurch/village-ansible.git ~/src/village-ansible
+  fi
 else
   mkdir ~/src
+  git clone https://github.com/villagechurch/village-ansible.git ~/src/village-ansible
 fi
-
-cd ~/src
-git clone https://github.com/villagechurch/village-ansible.git
 
 # create some space for readability
 echo ""
