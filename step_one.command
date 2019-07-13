@@ -1,4 +1,5 @@
 #! /bin/zsh
+PATH=/usr/local/bin:$PATH
 
 # This script builds an ansible environment on macOS 10.14 for the purpose of building out an ansible control infrastructure.
 
@@ -8,7 +9,8 @@ clear
 # Assume ready, failed checks will change this
 READY="True"
 
-# Application checks
+# PHASE ONE - Application checks
+echo "--- PHASE ONE ---"
 Apps=('Transmit' 'BBEdit')
 
 for i in "${Apps[@]}"; do
@@ -20,7 +22,7 @@ for i in "${Apps[@]}"; do
   fi
 done
 
-# Homebrew
+# PHASE ONE - Homebrew
 if which brew >/dev/null; then
   echo "Homebrew is installed"
 else
@@ -50,7 +52,38 @@ else
 fi
 
 if [[ $READY == "True" ]]; then
-  echo "You're ready for Step Two"
+  echo ""
+  echo "You're ready for Phase Two"
+else
+  echo ""
+  echo "You're not ready for Phase Two"
+  # create some space for readability
+  echo ""
+  echo ""
+  exit
+fi
+
+# PHASE TWO - Python3
+echo ""
+echo "--- PHASE TWO ---"
+if brew list python3 >/dev/null; then
+  echo "Python 3 is installed"
+else 
+  brew install python3
+fi
+
+# PHASE TWO - Ansible
+if pip3 list | grep ansible>/dev/null; then
+  echo "Ansible is installed"
+else
+  pip3 install ansible
+fi
+
+# PHASE TWO - Git
+if brew list git >/dev/null; then
+  echo "Git is installed"
+else 
+  brew install git
 fi
 
 # create some space for readability
