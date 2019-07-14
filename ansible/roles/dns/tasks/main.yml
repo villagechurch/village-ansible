@@ -1,0 +1,15 @@
+---
+# file: roles/dns/tasks/main.yml
+
+- name: be sure dnsmasq is installed
+  yum:
+    name: dnsmasq
+    state: present
+  tags: dnsmasq
+
+- name: be sure dnsmasq is running and enabled
+  service:
+    name: dnsmasq
+    state: started
+    enabled: yes
+  tags: dnsmasq

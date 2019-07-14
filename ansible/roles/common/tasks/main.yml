@@ -1,0 +1,15 @@
+---
+# file: roles/common/tasks/main.yml
+
+- name: be sure chrony is installed
+  yum:
+    name: chrony
+    state: present
+  tags: chrony
+
+- name: be sure chronyd is running and enabled
+  service:
+    name: chronyd
+    state: started
+    enabled: yes
+  tags: chrony
