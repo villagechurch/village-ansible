@@ -1,0 +1,30 @@
+---
+# file: roles/ansible-control/tasks/main.yml
+
+- name: install master ssh private key
+  copy: 
+    src: "{{ item }}"
+    dest: "/root/.ssh/{{ item }}" 
+    mode: 0600
+  with_items:
+    - id_rsa
+    - id_rsa.pub
+  tags: ssh
+
+- name: be sure EPEL is installed
+  yum:
+    name: epel-release
+    state: present
+  tags: epel
+
+- name: be sure python3 is installed
+  yum:
+    name: python36
+    state: present
+  tags: python
+
+- name: be sure pip3 is installed
+  yum:
+    name: python36-pip
+    state: present
+  tags: python

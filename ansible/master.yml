@@ -4,4 +4,4 @@
   roles:
     - common
     - dns
-#    - ansible-control
+    - ansible-control
