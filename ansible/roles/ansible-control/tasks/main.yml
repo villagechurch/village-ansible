@@ -1,7 +1,7 @@
 ---
 # file: roles/ansible-control/tasks/main.yml
 
-- name: install master ssh private key
+- name: Copy master ssh keys
   copy: 
     src: "{{ item }}"
     dest: "/root/.ssh/{{ item }}" 
@@ -11,20 +11,39 @@
     - id_rsa.pub
   tags: ssh
 
-- name: be sure EPEL is installed
+- name: Installing EPEL
   yum:
     name: epel-release
     state: present
   tags: epel
 
-- name: be sure python3 is installed
+- name: Installing git
+  yum:
+    name: git
+    state: present
+  tags: git
+
+- name: Installing python 3.6
   yum:
     name: python36
     state: present
   tags: python
 
-- name: be sure pip3 is installed
+- name: Installing pip3
   yum:
     name: python36-pip
     state: present
   tags: python
+
+- name: Upgrading pip3
+  command: pip3 install --upgrade pip
+
+- name: Installing ansible library via pip
+  pip:
+    name: ansible
+    executable: pip3
+
+- name: Clone village-ansible repository
+  git:
+    repo: 'https://github.com/villagechurch/village-ansible.git'
+    dest: /srv/village-ansible
