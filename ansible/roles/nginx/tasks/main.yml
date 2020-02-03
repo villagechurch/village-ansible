@@ -13,13 +13,6 @@
     state: present
   tags: nginx
 
-- name: be sure nginx is running and enabled
-  service:
-    name: nginx
-    state: started
-    enabled: yes
-  tags: nginx
-
 - name: Copy nginx configuration
   copy: 
     src: "{{ item }}"
@@ -38,8 +31,9 @@
     - village.conf
   tags: nginx
 
-- name: restart nginx
+- name: be sure nginx is running and enabled
   service:
     name: nginx
-    state: restarted
+    state: started
+    enabled: yes
   tags: nginx
