@@ -1,0 +1,45 @@
+---
+# file: roles/nginx/tasks/main.yml
+
+- name: Installing EPEL
+  yum:
+    name: epel-release
+    state: present
+  tags: epel
+
+- name: Installing nginx
+  yum:
+    name: nginx
+    state: present
+  tags: nginx
+
+- name: be sure nginx is running and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags: nginx
+
+- name: Copy nginx configuration
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/nginx/{{ item }}" 
+    mode: 0644
+  with_items:
+    - nginx.conf
+  tags: nginx
+
+- name: Copy server block configuration
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/nginx/conf.d/{{ item }}" 
+    mode: 0644
+  with_items:
+    - village.conf
+  tags: nginx
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+  tags: nginx

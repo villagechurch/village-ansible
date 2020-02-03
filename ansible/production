@@ -2,3 +2,6 @@
 
 [master]
 192.168.0.40 ansible_user=root
+
+[webservers]
+138.197.132.236 ansible_user=root
