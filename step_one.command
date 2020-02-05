@@ -73,12 +73,13 @@ if brew list python3 &>/dev/null; then
 else 
   brew install python3
 fi
+pip3 install --upgrade --user pip
 
 # PHASE TWO - Ansible
 if pip3 list | grep ansible>/dev/null; then
   echo "Ansible is installed"
 else
-  pip3 install ansible
+  pip3 install --user ansible
 fi
 
 # PHASE TWO - Git
