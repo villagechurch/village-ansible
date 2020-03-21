@@ -37,3 +37,10 @@
     state: started
     enabled: yes
   tags: nginx
+
+- name: restart nginx
+  service:
+    name: nginx
+    state: restarted
+    enabled: yes
+  tags: nginx
