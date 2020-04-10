@@ -1,0 +1,6 @@
+---
+# file: rclone.yml
+- hosts: rclone
+  roles:
+    - common
+    - rclone

@@ -1,0 +1,23 @@
+---
+# file: roles/rclone/tasks/main.yml
+
+- name: Installing EPEL
+  yum:
+    name: epel-release
+    state: present
+  tags: epel
+
+- name: Installing rclone
+  yum:
+    name: rclone
+    state: present
+  tags: rclone
+
+- name: Copy rclone configuration
+ copy: 
+   src: "{{ item }}"
+   dest: "/root/.config/rclone/{{ item }}" 
+   mode: 0644
+ with_items:
+   - rclone.conf
+ tags: rclone
