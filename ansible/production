@@ -5,6 +5,3 @@
 
 [webservers]
 138.197.132.236 ansible_user=root
-
-[rclone]
-139.178.69.191 ansible_user=root
