@@ -1,0 +1,15 @@
+# this is the testing hosts file
+
+[bootstrap]
+# new-host.local ansible_host=192.168.0.48
+
+[bootstrap:vars]
+ansible_connection=paramiko
+
+[osds]
+#192.168.0.49
+
+[mgrs]
+mgr0-test.thisisvillage.church ansible_host=192.168.0.48
+
+[mons]

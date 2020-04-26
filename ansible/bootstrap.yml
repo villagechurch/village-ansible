@@ -1,0 +1,8 @@
+---
+# file: bootstrap.yml
+
+- hosts: bootstrap
+  remote_user: root
+  gather_facts: false
+  roles:
+    - bootstrap

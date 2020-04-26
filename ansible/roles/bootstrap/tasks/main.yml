@@ -1,0 +1,88 @@
+---
+# file: roles/bootstrap/tasks/main.yml
+
+- name: install essentials
+  yum:
+    name:
+      - deltarpm
+      - epel-release
+    update_cache: true
+
+- name: ensure the EPEL key is in place
+  rpm_key:
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+
+- name: upgrade installed packages
+  yum:
+    name: '*'
+    state: latest
+  notify:
+    - reboot
+    - remove old kernels
+
+- name: install basic tools
+  yum:
+    name:
+      - zsh
+      - nano
+      - nss-mdns
+      - sudo
+
+- name: open the firewall for avahi
+  firewalld:
+    zone: public
+    permanent: true
+    service: mdns
+    state: enabled
+
+- name: create a user
+  user:
+    name: "{{ username }}"
+    comment: "{{ full_name }}"
+    groups: wheel
+    shell: "{{ shell }}"
+    state: present
+    generate_ssh_key: "{{ key_name is undefined }}"
+  register: user
+
+- name: make .ssh directory for the user
+  file:
+    path: "{{ user.home }}/.ssh"
+    state: directory
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: '600'
+
+- name: copy up local ssh key
+  copy:
+    src: "{{ lookup('env', 'HOME') }}/.ssh/{{ item.name }}"
+    dest: "{{ user.home }}/.ssh"
+    owner: "{{ username }}"
+    group: "{{ username }}"
+    mode: "{{ item.mode }}"
+  loop:
+    - name: "{{ key_name }}"
+      mode: "600"
+    - name: "{{ key_name }}.pub"
+      mode: "644"
+  when: key_name is defined
+
+- name: populate authorized_keys
+  authorized_key:
+    user: "{{ item }}"
+    key: "https://github.com/{{ github_user }}.keys"
+    state: present
+  loop:
+    - root
+    - "{{ username }}"
+  when: github_user is defined
+
+- name: give sudo to wheel group
+  lineinfile:
+    path: /etc/sudoers
+    line: "%wheel ALL=(ALL) NOPASSWD: ALL"
+    validate: "visudo -cf %s"
+
+- name: ensure timezone is UTC
+  timezone:
+    name: UTC

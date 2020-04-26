@@ -1,0 +1,8 @@
+---
+# file: roles/bootstrap/handlers/main.yml
+
+- name: reboot
+  reboot:
+
+- name: remove old kernels
+  command: "/usr/bin/package-cleanup --oldkernels --count=2 -y"
