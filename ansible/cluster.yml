@@ -1,0 +1,10 @@
+---
+# file: cluster.yml
+- hosts: master_node
+  roles:
+    - common
+    - cephadm
+
+#- hosts: osds
+#  roles:
+#    - common

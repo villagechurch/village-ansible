@@ -2,18 +2,17 @@
 # file: roles/bootstrap/tasks/main.yml
 
 - name: install essentials
-  yum:
+  dnf:
     name:
-      - deltarpm
       - epel-release
     update_cache: true
 
 - name: ensure the EPEL key is in place
   rpm_key:
-    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-8
 
 - name: upgrade installed packages
-  yum:
+  dnf:
     name: '*'
     state: latest
   notify:
@@ -21,7 +20,7 @@
     - remove old kernels
 
 - name: install basic tools
-  yum:
+  dnf:
     name:
       - zsh
       - nano
@@ -82,7 +81,3 @@
     path: /etc/sudoers
     line: "%wheel ALL=(ALL) NOPASSWD: ALL"
     validate: "visudo -cf %s"
-
-- name: ensure timezone is UTC
-  timezone:
-    name: UTC

@@ -1,7 +1,0 @@
----
-# file: master.yml
-- hosts: master
-  roles:
-    - common
-    - dns
-    - ansible-control
