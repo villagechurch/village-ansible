@@ -1,0 +1,38 @@
+---
+# file: roles/mlnx_ofed/tasks/main.yml
+
+- name: install mlnx_ofed pre-requisites
+  dnf:
+    name:
+      - perl
+      - pciutils
+      - gcc-gfortran
+      - python3-libxml2
+      - tcsh
+      - libnl3.i686
+      - libnl3
+      - expat
+      - glib2
+      - tcl
+      - libstdc++
+      - bc
+      - tk
+      - gtk2
+      - atk
+      - cairo
+      - numactl
+      - pkgconfig
+      - ethtool
+      - lsof
+    state: latest
+  become: yes
+  
+- name: fetch and unarchive MLNX_EN-5.0
+  unarchive:
+    src: http://www.mellanox.com/downloads/ofed/MLNX_EN-5.0-1.0.0.0/mlnx-en-5.0-1.0.0.0-rhel8.1-x86_64.tgz
+    dest: /root
+    remote_src: yes
+
+- name: run mlnx installer
+  command: "/root/mlnx-en-5.0-1.0.0.0-rhel8.1-x86_64/install --force"
+  become: yes
