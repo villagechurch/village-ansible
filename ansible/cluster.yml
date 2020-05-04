@@ -5,6 +5,7 @@
     - common
     - cephadm
 
-#- hosts: osds
-#  roles:
-#    - common
+- hosts: osds
+  roles:
+   - common
+   - ceph-host
