@@ -1,5 +1,5 @@
 ---
-# file: roles/ceph/tasks/main.yml
+# file: roles/ceph-host/tasks/main.yml
 
 - name: install podman pre-requisite
   dnf:

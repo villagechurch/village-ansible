@@ -1,31 +1,16 @@
 ---
 # file: roles/mlnx_mft/tasks/main.yml
 
-#- name: install mlnx_ofed pre-requisites
-#  dnf:
-#    name:
-#      - perl
-#      - pciutils
-#      - gcc-gfortran
-#      - python3-libxml2
-#      - tcsh
-#      - libnl3.i686
-#      - libnl3
-#      - expat
-#      - glib2
-#      - tcl
-#      - libstdc++
-#      - bc
-#      - tk
-#      - gtk2
-#      - atk
-#      - cairo
-#      - numactl
-#      - pkgconfig
-#      - ethtool
-#      - lsof
-#    state: latest
-#  become: yes
+- name: install mlnx_mft pre-requisites
+  dnf:
+   name:
+     - gcc
+     - rpm-build
+     - kernel-devel
+     - make
+     - elfutils-libelf-devel
+   state: latest
+  become: yes
   
 - name: fetch and unarchive MFT-4.14
   unarchive:
@@ -33,6 +18,6 @@
     dest: /root
     remote_src: yes
 
-#- name: run mft installer
-#  command: "/root/mft-4.14.0-105-x86_64-rpm/install.sh"
-#  become: yes
+- name: run mft installer
+ command: "/root/mft-4.14.0-105-x86_64-rpm/install.sh"
+ become: yes

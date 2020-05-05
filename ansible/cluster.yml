@@ -1,11 +1,32 @@
 ---
 # file: cluster.yml
+
 - hosts: master_node
+  remote_user: root
+  gather_facts: false
   roles:
     - common
     - cephadm
 
+- hosts: mgrs
+  remote_user: root
+  gather_facts: false
+  roles:
+    - common
+    - ceph-host
+
+- hosts: mons
+  remote_user: root
+  gather_facts: false
+  roles:
+    - common
+    - ceph-host
+
 - hosts: osds
+  remote_user: root
+  gather_facts: false
   roles:
    - common
    - ceph-host
+   - mlnx_ofed
+   - mlnx_mft

@@ -33,6 +33,6 @@
     dest: /root
     remote_src: yes
 
-- name: run mlnx installer
-  command: "/root/mlnx-en-5.0-1.0.0.0-rhel8.1-x86_64/install --force"
-  become: yes
+#- name: run mlnx installer
+#  command: "/root/mlnx-en-5.0-1.0.0.0-rhel8.1-x86_64/install --force"
+#  become: yes

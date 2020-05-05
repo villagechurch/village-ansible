@@ -1,6 +1,4 @@
 # this is the testing hosts file
-[all]
-
 
 [bootstrap]
 master ansible_host=192.168.0.89
@@ -9,10 +7,10 @@ master ansible_host=192.168.0.89
 ansible_connection=paramiko
 
 [master_node]
-master ansible_host=192.168.0.89 ansible_user=root
+master ansible_host=192.168.0.89
 
 [osds]
-hdd0 ansible_host=192.168.0.90 ansible_user=root
+hdd0 ansible_host=192.168.0.90
 
 [mgrs]
 

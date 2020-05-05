@@ -35,4 +35,3 @@
     mode: '0755'
   with_items:
     - osd_spec.yml
-
