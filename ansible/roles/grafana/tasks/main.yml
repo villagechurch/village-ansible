@@ -1,0 +1,23 @@
+---
+# file: roles/grafana/tasks/main.yml
+
+- name: Copy grafana repo config
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/yum.repos.d/{{ item }}" 
+    mode: 0622
+  with_items:
+    - grafana.repo
+
+- name: install grafana via dnf
+  dnf:
+   name:
+     - grafana
+   state: installed
+  become: yes
+
+- name: be sure grafana is running and enabled
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes

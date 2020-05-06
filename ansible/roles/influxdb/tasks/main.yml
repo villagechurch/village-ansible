@@ -1,0 +1,23 @@
+---
+# file: roles/influxdb/tasks/main.yml
+
+- name: Copy influxdb repo config
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/yum.repos.d/{{ item }}" 
+    mode: 0622
+  with_items:
+    - influxdb.repo
+
+- name: install influxdb via dnf
+  dnf:
+   name:
+     - influxdb
+   state: installed
+  become: yes
+
+- name: be sure influxdb is running and enabled
+  service:
+    name: influxdb
+    state: started
+    enabled: yes
