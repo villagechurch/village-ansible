@@ -19,5 +19,5 @@
     remote_src: yes
 
 - name: run mft installer
- command: "/root/mft-4.14.0-105-x86_64-rpm/install.sh"
- become: yes
+  command: "/root/mft-4.14.0-105-x86_64-rpm/install.sh"
+  become: yes
