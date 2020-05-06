@@ -19,3 +19,4 @@ mon1 ansible_host=192.168.0.43
 [osds]
 hdd0 ansible_host=192.168.0.50
 hdd1 ansible_host=192.168.0.51
+hdd3 ansible_host=192.168.0.53

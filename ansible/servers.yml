@@ -1,0 +1,23 @@
+---
+# file: webservers.yml
+
+- hosts: webservers
+  roles:
+    - nginx
+
+- hosts: rclone
+  roles:
+    - common
+    - rclone
+
+- hosts: influxdb
+  remote_user: root
+  roles:
+    - common
+    - influxdb
+
+- hosts: grafana
+  remote_user: root
+  roles:
+    - common
+    - grafana

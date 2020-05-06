@@ -1,7 +1,7 @@
 # this is the testing hosts file
 
 [bootstrap]
-master ansible_host=192.168.0.89
+centos8template ansible_host=192.168.0.199
 
 [bootstrap:vars]
 ansible_connection=paramiko
@@ -16,3 +16,6 @@ hdd0 ansible_host=192.168.0.90
 
 
 [mons]
+
+[influxdb]
+influxdb0 ansible_host=192.168.0.88
