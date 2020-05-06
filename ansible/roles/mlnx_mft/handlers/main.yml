@@ -1,0 +1,6 @@
+---
+# file: roles/mlnx_mft/handlers/main.yml
+
+- name: run mft installer
+  command: "/root/mft-4.14.0-105-x86_64-rpm/install.sh"
+  become: yes

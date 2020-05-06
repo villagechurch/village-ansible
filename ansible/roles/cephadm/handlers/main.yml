@@ -1,0 +1,11 @@
+---
+# file: roles/nginx/handlers/main.yml
+
+- name: create ceph directory
+  file:
+    path: /etc/ceph
+    state: directory
+    mode: '0755'
+
+- name: add ceph repo
+  command: "/root/cephadm add-repo --release octopus"

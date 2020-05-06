@@ -12,15 +12,9 @@
     url: https://github.com/ceph/ceph/raw/octopus/src/cephadm/cephadm
     dest: /root/cephadm
     mode: '0770'
-
-- name: Create ceph directory if it does not exist
-  file:
-    path: /etc/ceph
-    state: directory
-    mode: '0755'
-
-- name: add ceph repo
-  command: "/root/cephadm add-repo --release octopus"
+  notify:
+    - create ceph directory
+    - add ceph repo
 
 - name: install cephadm
   dnf:
