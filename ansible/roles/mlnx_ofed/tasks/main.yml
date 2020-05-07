@@ -24,6 +24,7 @@
       - pkgconfig
       - ethtool
       - lsof
+      - qperf #optional
     state: latest
   become: yes
   
