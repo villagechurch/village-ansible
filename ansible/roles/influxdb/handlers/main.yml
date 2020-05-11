@@ -1,0 +1,7 @@
+---
+# file: roles/influxdb/handlers/main.yml
+
+- name: restart influxdb
+  service:
+    name: influxdb
+    state: restarted

@@ -4,8 +4,8 @@
 - name: Copy influxdb repo config
   copy: 
     src: "{{ item }}"
-    dest: "/etc/yum.repos.d/{{ item }}" 
-    mode: 0622
+    dest: "/etc/yum.repos.d/{{ item }}"
+    mode: 0644
   with_items:
     - influxdb.repo
 
@@ -15,6 +15,15 @@
      - influxdb
    state: installed
   become: yes
+
+- name: Copy influxdb config
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/influxdb/{{ item }}"
+    mode: 0644
+  with_items:
+    - influxdb.conf
+  notify: restart influxdb
 
 - name: be sure influxdb is running and enabled
   service:
