@@ -8,3 +8,5 @@ shell: /usr/bin/zsh
 #key_name: id_rsa
 
 github_user: villagechurch
+
+ansible_user: root

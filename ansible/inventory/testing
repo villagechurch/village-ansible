@@ -1,7 +1,7 @@
 # this is the testing hosts file
 
 [bootstrap]
-centos8template ansible_host=192.168.0.199
+#centos8template ansible_host=192.168.0.199
 
 [bootstrap:vars]
 ansible_connection=paramiko
@@ -22,3 +22,9 @@ influxdb0 ansible_host=192.168.0.88
 
 [grafana]
 grafana0 ansible_host=192.168.0.87
+
+[nginx]
+palantir0 ansible_host=192.168.0.86
+
+[mysql]
+mysql0 ansible_host=192.168.0.84

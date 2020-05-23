@@ -1,14 +1,8 @@
 ---
 # file: roles/nginx/tasks/main.yml
 
-- name: Installing EPEL
-  yum:
-    name: epel-release
-    state: present
-  tags: epel
-
 - name: Installing nginx
-  yum:
+  dnf:
     name: nginx
     state: present
 
@@ -26,7 +20,7 @@
     dest: "/etc/nginx/conf.d/{{ item }}" 
     mode: 0644
   with_items:
-    - village.conf
+    - "{{ nginx_block_config }}"
   notify:
     - restart nginx
 

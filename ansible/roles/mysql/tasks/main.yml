@@ -1,0 +1,48 @@
+---
+# file: roles/mysql/tasks/main.yml
+
+- name: install mysql via dnf
+  dnf:
+   name:
+     - "@mysql"
+   state: installed
+  become: yes
+
+- name: Copy influxdb config
+  copy: 
+    src: "{{ item }}"
+    dest: "/root/{{ item }}"
+    mode: 0600
+  with_items:
+    - .my.cnf
+#  notify: restart influxdb
+
+- name: be sure mysqld is running and enabled
+  service:
+    name: mysqld
+    state: started
+    enabled: yes
+
+- name: install PyMySQL via pip
+  pip:
+    name: PyMySQL
+
+# 'localhost' needs to be the last item for idempotency, see
+# http://ansible.cc/docs/modules.html#mysql-user
+- name: update mysql root password for all root accounts
+  mysql_user: name=root host={{ item }} password={{ root_db_password }}
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+    no_log: true
+  
+- name: ensure anonymous users are not in the database
+  mysql_user: name='' host={{ item }} state=absent
+  with_items:
+    - localhost
+    - "{{ inventory_hostname }}"
+
+- name: remove the test database
+  mysql_db: name=test state=absent
