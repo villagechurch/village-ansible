@@ -13,7 +13,7 @@
   dnf:
    name:
      - grafana
-   state: installed
+   state: latest
   become: yes
 
 - name: be sure grafana is running and enabled

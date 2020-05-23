@@ -6,3 +6,9 @@
     name: podman
     state: latest
   become: yes
+
+- name: install iperf
+  dnf:
+    name: iperf3
+    state: latest
+  become: yes
