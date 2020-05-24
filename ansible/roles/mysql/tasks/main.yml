@@ -36,7 +36,7 @@
     - 127.0.0.1
     - ::1
     - localhost
-    no_log: true
+  no_log: true
   
 - name: ensure anonymous users are not in the database
   mysql_user: name='' host={{ item }} state=absent
