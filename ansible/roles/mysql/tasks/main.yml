@@ -7,8 +7,9 @@
      - "@mysql"
    state: installed
   become: yes
+  tags: first-run
 
-- name: Copy influxdb config
+- name: Copy mysql config
   copy: 
     src: "{{ item }}"
     dest: "/root/{{ item }}"
@@ -23,14 +24,20 @@
     state: started
     enabled: yes
 
+# required to use the Ansible mysql modules
 - name: install PyMySQL via pip
   pip:
     name: PyMySQL
+  tags: first-run
 
 # 'localhost' needs to be the last item for idempotency, see
 # http://ansible.cc/docs/modules.html#mysql-user
-- name: update mysql root password for all root accounts
-  mysql_user: name=root host={{ item }} password={{ root_db_password }}
+- name: update mysql root password and add all database privileges and 'WITH GRANT OPTION'
+  mysql_user:
+    name: root
+    host: "{{ item }}"
+    password: "{{ root_db_password }}"
+    priv: '*.*:ALL,GRANT'
   with_items:
     - "{{ ansible_hostname }}"
     - 127.0.0.1
@@ -43,6 +50,22 @@
   with_items:
     - localhost
     - "{{ inventory_hostname }}"
+  tags: first-run
 
 - name: remove the test database
   mysql_db: name=test state=absent
+  tags: first-run
+
+- name: Create database user with password and all database privileges and 'WITH GRANT OPTION'
+  mysql_user:
+    name: "{{ username }}"
+    host: "{{ item }}"
+    password: "{{ user_password }}"
+    priv: '*.*:ALL,GRANT'
+    state: present
+  with_items:
+    - "{{ ansible_hostname }}"
+    - 127.0.0.1
+    - ::1
+    - localhost
+  no_log: true
