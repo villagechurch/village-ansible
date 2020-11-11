@@ -76,11 +76,11 @@ fi
 pip3 install --upgrade --user pip
 
 # PHASE TWO - Ansible
-if pip3 list | grep ansible>/dev/null; then
-  echo "Ansible is installed"
-else
-  pip3 install --user ansible
-fi
+# if pip3 list | grep ansible>/dev/null; then
+#   echo "Ansible is installed"
+# else
+#   pip3 install --user ansible
+# fi
 
 # PHASE TWO - Git
 if brew list git &>/dev/null; then
@@ -106,6 +106,12 @@ else
   mkdir ~/src
   git clone https://github.com/villagechurch/village-ansible.git ~/src/village-ansible
 fi
+
+# ADD install VENV and run pip update and requirements.txt
+# python3 -m venv venv
+# source venv/bin/activate https://stackoverflow.com/questions/13122137/how-to-source-virtualenv-activate-in-a-bash-script
+# pip3 install --upgrade pip
+# pip3 install -r requirements.txt
 
 # create some space for readability
 echo ""

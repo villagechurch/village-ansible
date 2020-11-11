@@ -1,31 +1,40 @@
 ---
 # file: roles/bootstrap/tasks/main.yml
 
-- name: install essentials
-  dnf:
+- name: centos install essentials
+  package:
     name:
       - epel-release
     update_cache: true
+  when: 
+    ansible_distribution == 'CentOS'
 
-- name: ensure the EPEL key is in place
+- name: centos7 ensure the EPEL key is in place
+  rpm_key:
+    key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
+  when: ansible_distribution == 'CentOS' and ansible_distribution_version == '7.8'
+
+- name: centos 8 ensure the EPEL key is in place
   rpm_key:
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-8
+  when: ansible_distribution == 'CentOS' and ansible_distribution_version == '8.2'
 
 - name: upgrade installed packages
-  dnf:
+  package:
     name: '*'
     state: latest
   notify:
     - reboot
     - remove old kernels
 
-- name: install basic tools
-  dnf:
+- name: install essential packages
+  package:
     name:
       - zsh
       - nano
       - nss-mdns
       - sudo
+      - python3
 
 - name: open the firewall for avahi
   firewalld:
@@ -41,7 +50,6 @@
     groups: wheel
     shell: "{{ shell }}"
     state: present
-    generate_ssh_key: "{{ key_name is undefined }}"
   register: user
 
 - name: make .ssh directory for the user

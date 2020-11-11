@@ -3,7 +3,7 @@
 
 - hosts: bootstrap
   remote_user: root
-  gather_facts: false
+  gather_facts: true
   roles:
     - bootstrap
     - common
