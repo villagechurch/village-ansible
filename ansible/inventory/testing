@@ -1,10 +1,17 @@
-# this is the testing hosts file
+# host file for testing on-site VMs
 
 [bootstrap]
 #centos8template ansible_host=192.168.0.199
 
+[bootstrap_proxmox]
+
 [bootstrap:vars]
 ansible_connection=paramiko
+
+[proxmox]
+#hv0 ansible_host=192.168.0.70
+hv1 ansible_host=192.168.0.71
+#hv2 ansible_host=192.168.0.72
 
 [master_node]
 master ansible_host=192.168.0.89

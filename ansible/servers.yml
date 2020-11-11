@@ -1,5 +1,5 @@
 ---
-# file: webservers.yml
+# file: servers.yml
 
 - hosts: nginx
   roles:
@@ -27,3 +27,8 @@
   roles:
     - common
     - mysql
+
+- hosts: proxmox
+  remote_user: root
+  roles:
+    - proxmox

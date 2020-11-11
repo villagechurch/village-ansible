@@ -1,0 +1,24 @@
+---
+# file: roles/proxmox/tasks/main.yml
+
+- name: install pip for python2
+  apt:
+    name:
+      - python-pip
+
+- name: install proxmoxer and dependancies
+  pip:
+    name:
+      - paramiko
+      - requests
+      - proxmoxer
+
+- proxmox:
+    vmid: "111"
+    node: hv1
+    api_user: root@pam
+    api_password: --insert pwd here--
+    api_host: hv1
+    password: --insert pwd here--
+    hostname: ansible-test
+    ostemplate: 'local:vztmpl/iso/CentOS-8.1.1911-x86_64-boot.iso'

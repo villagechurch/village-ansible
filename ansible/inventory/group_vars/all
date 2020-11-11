@@ -4,9 +4,10 @@
 username: iwiebe
 full_name: Isaac Wiebe
 shell: /usr/bin/zsh
+user_password: vault_iwiebe_password
 # define the key_name if you want to send your workstation key to server user
 #key_name: id_rsa
 
-github_user: villagechurch
+github_user: iwiebe
 
 ansible_user: root
