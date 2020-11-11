@@ -1,0 +1,38 @@
+---
+# file: roles/cephadm/tasks/main.yml
+
+- name: check for pre-requisites
+  package:
+    name:
+      - systemd
+      - podman
+      - chrony
+      - lvm2
+      - python3
+    state: present
+  become: yes
+  
+- name: fetch cephadm script
+  get_url:
+    url: https://raw.githubusercontent.com/ceph/ceph/octopus/src/cephadm/cephadm
+    dest: /root/cephadm
+    mode: '0770'
+  notify:
+    - create ceph directory
+    - add ceph repo
+    - install cephadm
+    - install ceph-common
+
+#- name: install cephadm
+#  dnf:
+#    name: cephadm
+#    state: installed
+#  become: yes
+
+#- name: send osd spec
+#  copy: 
+#    src: "{{ item }}"
+#    dest: "/etc/ceph/{{ item }}" 
+#    mode: '0755'
+#  with_items:
+#    - osd_spec.yml

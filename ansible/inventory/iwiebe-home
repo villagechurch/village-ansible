@@ -1,18 +1,17 @@
 # host file for testing VMs on iwiebe's proxmox
 
 [bootstrap]
-centos7template ansible_host=10.10.10.50
+centos7template ansible_host=10.10.10.49
 
 [bootstrap:vars]
 ansible_connection=paramiko
 
-[manager_node]
-#ceph-mgr0 ansible_host=10.10.10.50
+[ceph_mgrs]
+ceph_mgr0 ansible_host=10.10.10.50
 
-[osds]
+[ceph_mons]
+ceph_mon0 ansible_host=10.10.10.51
+
+[ceph_osds]
 #hdd0 ansible_host=192.168.0.90
 
-[mgrs]
-
-
-[mons]

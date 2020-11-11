@@ -9,3 +9,9 @@
 
 - name: add ceph repo
   command: "/root/cephadm add-repo --release octopus"
+
+- name: install cephadm
+  command: "/root/cephadm install"
+
+- name: install ceph-common
+  command: "/root/cephadm install ceph-common"
