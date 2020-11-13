@@ -1,0 +1,16 @@
+Host *
+  User root
+  IdentityFile /root/.ssh/ceph.key
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ConnectTimeout=30
+Host  mon0
+	Hostname 10.10.10.31
+Host  mon1
+	Hostname 10.10.10.32
+Host  osd0
+	Hostname 10.10.10.33
+Host  osd1
+	Hostname 10.10.10.34
+Host  osd2
+	Hostname 10.10.10.35

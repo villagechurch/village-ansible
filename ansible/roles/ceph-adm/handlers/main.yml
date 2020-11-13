@@ -15,3 +15,6 @@
 
 - name: install ceph-common
   command: "/root/cephadm install ceph-common"
+
+- name: update ceph ssh config
+  command: "ceph cephadm set-ssh-config -i /root/.ssh/config"
