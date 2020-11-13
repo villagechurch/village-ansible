@@ -1,5 +1,11 @@
 ---
 # file: cluster.yml
+- hosts: dns
+  remote_user: root
+  gather_facts: false
+  roles:
+    - common
+    - dns
 
 - hosts: ceph_mgrs
   remote_user: root
@@ -21,5 +27,11 @@
   roles:
    - common
    - ceph-host
-   - mlnx_ofed
-   - mlnx_mft
+#   - mlnx_ofed
+#   - mlnx_mft
+
+#- hosts: cluster
+#  remote_user: root
+#  gather_facts: true
+#  roles:
+#    - cluster

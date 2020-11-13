@@ -1,0 +1,12 @@
+---
+# file: roles/dns/handlers/main.yml
+
+- name: restart dnsmasq
+  service:
+    name: dnsmasq
+    state: restarted
+    
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted

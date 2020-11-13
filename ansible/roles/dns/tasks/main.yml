@@ -1,11 +1,11 @@
 ---
 # file: roles/dns/tasks/main.yml
 
-- name: be sure dnsmasq is installed
-  yum:
-    name: dnsmasq
-    state: present
-  tags: dnsmasq
+- name: be sure dnsmasq requirements are installed
+  package:
+    name:
+      - dnsmasq
+      - bind-utils
 
 - name: be sure dnsmasq is running and enabled
   service:
@@ -13,3 +13,22 @@
     state: started
     enabled: yes
   tags: dnsmasq
+
+- name: copy dnsmasq config
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/{{ item }}" 
+    mode: 0644
+  with_items:
+    - dnsmasq.conf
+    - hosts
+  notify:
+    - restart dnsmasq
+
+- name: permit traffic in default zone for dns service
+  ansible.posix.firewalld:
+    service: dns
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld
