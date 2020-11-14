@@ -2,11 +2,7 @@
 
 [bootstrap]
 centos7template ansible_host=10.10.10.49
-# mgr0 ansible_host=10.10.10.30
-# mon0 ansible_host=10.10.10.31
-# mon1 ansible_host=10.10.10.32
-# osd0 ansible_host=10.10.10.33
-# osd1 ansible_host=10.10.10.34
+
 
 [bootstrap:vars]
 ansible_connection=paramiko
@@ -23,8 +19,13 @@ mon1 ansible_host=10.10.10.32
 
 [ceph_osds]
 osd0 ansible_host=10.10.10.33
+osd1 ansible_host=10.10.10.34
+osd2 ansible_host=10.10.10.35
 
 [cluster:children]
 ceph_mgrs
 ceph_mons
 ceph_osds
+
+[samba]
+samba0 ansible_host=10.10.10.36

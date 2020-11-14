@@ -35,3 +35,10 @@
 #  gather_facts: true
 #  roles:
 #    - cluster
+
+- hosts: samba
+  remote_user: root
+  gather_facts: false
+  roles:
+    - common
+    - samba-vfsceph

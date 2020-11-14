@@ -1,0 +1,13 @@
+---
+# file: roles/samba-vfsceph/handlers/main.yml
+
+- name: restart samba
+  service:
+    name: smb
+    state: restarted
+
+    
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted

@@ -1,0 +1,40 @@
+---
+# file: roles/samba-vfsceph/tasks/main.yml
+
+- name: Installing samba
+  package:
+    name:
+      - samba
+    state: present
+
+- name: be sure samba is running and enabled
+  service:
+    name: smb
+    state: started
+    enabled: yes
+
+- name: copy samba config
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/{{ item }}" 
+    mode: 0644
+  with_items:
+    - smb.conf
+    - smbusers
+  notify:
+    - restart samba
+
+- name: permit traffic in default zone for samba service
+  ansible.posix.firewalld:
+    service: samba
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld
+
+# Fulfill cephfs pre-requisites
+- name: create ceph directory
+  file:
+    path: /etc/ceph
+    state: directory
+    mode: '0755'
