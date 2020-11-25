@@ -2,4 +2,4 @@
 
 cd ansible
 
-ansible-playbook -i inventory/iwiebe-home bootstrap.yml --ask-pass
+ansible-playbook -i inventory/bootstrap bootstrap.yml --ask-pass

@@ -1,12 +1,5 @@
 # host file for testing VMs on iwiebe's proxmox
 
-[bootstrap]
-centos7template ansible_host=10.10.10.49
-
-
-[bootstrap:vars]
-ansible_connection=paramiko
-
 [dns]
 dns0 ansible_host=10.10.10.2
 

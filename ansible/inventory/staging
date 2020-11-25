@@ -1,23 +1,20 @@
 # This is the Staging hosts file
 
-[bootstrap]
+[dns]
+dns0 ansible_host=192.168.0.2
 
-[bootstrap:vars]
-ansible_connection=paramiko
-ansible_user=root
-
-[master_node]
-master ansible_host=192.168.0.40
-
-[mgrs]
-mgr0 ansible_host=192.168.0.41
-
-[mons]
-mon0 ansible_host=192.168.0.42
-mon1 ansible_host=192.168.0.43
-
-[osds]
-hdd0 ansible_host=192.168.0.50
-hdd1 ansible_host=192.168.0.51
-ssd0 ansible_host=192.168.0.52
-hdd2 ansible_host=192.168.0.53
+# [master_node]
+# master ansible_host=192.168.0.40
+# 
+# [mgrs]
+# mgr0 ansible_host=192.168.0.41
+# 
+# [mons]
+# mon0 ansible_host=192.168.0.42
+# mon1 ansible_host=192.168.0.43
+# 
+# [osds]
+# hdd0 ansible_host=192.168.0.50
+# hdd1 ansible_host=192.168.0.51
+# ssd0 ansible_host=192.168.0.52
+# hdd2 ansible_host=192.168.0.53
