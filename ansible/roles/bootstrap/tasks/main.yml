@@ -24,8 +24,8 @@
     name: '*'
     state: latest
   notify:
-    - reboot
     - remove old kernels
+    - reboot
 
 - name: install essential packages
   package:
@@ -36,12 +36,13 @@
       - sudo
       - python3
 
-- name: open the firewall for avahi
-  firewalld:
-    zone: public
-    permanent: true
+- name: permit traffic in default zone for avahi service
+  ansible.posix.firewalld:
     service: mdns
+    permanent: yes
     state: enabled
+  notify:
+    - restart firewalld
 
 - name: create a user
   user:

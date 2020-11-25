@@ -36,3 +36,9 @@
     src: "host_spec.yml"
     dest: "/root/host_spec.yml" 
     mode: 0755
+    
+- name: Copy osd service spec
+  copy: 
+    src: "osd_spec.yml"
+    dest: "/root/osd_spec.yml" 
+    mode: 0755

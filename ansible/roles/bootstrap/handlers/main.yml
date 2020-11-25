@@ -6,3 +6,8 @@
 
 - name: remove old kernels
   command: "/usr/bin/package-cleanup --oldkernels --count=2 -y"
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted

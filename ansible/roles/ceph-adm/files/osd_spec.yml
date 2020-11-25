@@ -7,3 +7,12 @@ data_devices:
   rotational: 1
 db_devices:
   rotational: 0
+
+service_type: osd
+service_id: hdd_drive_layout
+placement:
+  host_pattern: 'osd*'
+data_devices:
+  rotational: 1
+db_devices:
+  rotational: 0

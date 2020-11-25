@@ -6,8 +6,12 @@
     name: smb
     state: restarted
 
-    
 - name: restart firewalld
   service:
     name: firewalld
+    state: restarted
+
+- name: restart avahi-daemon
+  service:
+    name: avahi-daemon
     state: restarted

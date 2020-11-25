@@ -41,4 +41,5 @@
   gather_facts: false
   roles:
     - common
+    - ceph-client
     - samba-vfsceph

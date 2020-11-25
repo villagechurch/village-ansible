@@ -16,11 +16,10 @@
 - name: copy samba config
   copy: 
     src: "{{ item }}"
-    dest: "/etc/{{ item }}" 
+    dest: "/etc/samba/{{ item }}" 
     mode: 0644
   with_items:
     - smb.conf
-    - smbusers
   notify:
     - restart samba
 
@@ -32,9 +31,28 @@
   notify:
     - restart firewalld
 
-# Fulfill cephfs pre-requisites
-- name: create ceph directory
-  file:
-    path: /etc/ceph
-    state: directory
-    mode: '0755'
+- name: copy avahi service config
+  copy: 
+    src: "smb.service.avahi"
+    dest: "/etc/avahi/services/smb.service" 
+    mode: 0644
+  notify:
+    - restart avahi-daemon
+
+## avahi service traffic permitted through firewall as a part of bootstrap
+
+- name: ensure ceph-fuse mount is persistent
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^none    \/mnt\/mycephfs  fuse\.ceph ceph\.id=samba0,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
+    line: 'none    /mnt/mycephfs  fuse.ceph ceph.id=samba0,ceph.conf=/etc/ceph/ceph.conf,_netdev,defaults  0 0'
+
+
+#- name: Put SELinux in permissive mode, logging actions that would be blocked.
+#  ansible.posix.selinux:
+#    policy: targeted
+#    state: permissive
+
+- name: Disable SELinux
+  ansible.posix.selinux:
+    state: disabled

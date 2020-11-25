@@ -1,0 +1,17 @@
+---
+# file: roles/ceph-client/handlers/main.yml
+
+- name: create ceph directory
+  file:
+    path: /etc/ceph
+    state: directory
+    mode: '0755'
+
+- name: add ceph repo
+  command: "/root/cephadm add-repo --release octopus"
+
+- name: install cephadm
+  command: "/root/cephadm install"
+
+- name: install ceph-common
+  command: "/root/cephadm install ceph-common"
