@@ -1,6 +1,9 @@
 ---
 # file: host_vars/dns0.yml
 
+## system vars
+#hostname: "override hostname here"
+
 ## add ethernet interface
 eth_type: "eth"
 client_ip: "192.168.0.2/23"

@@ -18,3 +18,9 @@ dns0 ansible_host=192.168.0.2
 # hdd1 ansible_host=192.168.0.51
 # ssd0 ansible_host=192.168.0.52
 # hdd2 ansible_host=192.168.0.53
+
+[staging:children]
+dns
+
+[staging:vars]
+file_prefix=staging

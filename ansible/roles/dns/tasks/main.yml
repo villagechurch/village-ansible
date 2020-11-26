@@ -21,7 +21,16 @@
     mode: 0644
   with_items:
     - dnsmasq.conf
-    - hosts
+  notify:
+    - restart dnsmasq
+
+- name: copy hosts
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/hosts" 
+    mode: 0644
+  with_items:
+    - "{{ file_prefix }}_hosts"
   notify:
     - restart dnsmasq
 
@@ -32,3 +41,4 @@
     state: enabled
   notify:
     - restart firewalld
+

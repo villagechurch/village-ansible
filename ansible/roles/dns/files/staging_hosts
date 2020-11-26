@@ -1,0 +1,35 @@
+127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+127.0.0.1   dns0.thisisvillage.church dns0
+
+# services
+192.168.0.2 dns0
+
+# ceph
+192.168.0.40 mgr0
+192.168.0.41 mon0
+192.168.0.42 mon1
+192.168.0.43 mon2
+192.168.0.44 mon3
+192.168.0.45 rgw0
+192.168.0.46 rgw1
+192.168.0.47 rgw2
+192.168.0.50 osd-hdd0
+192.168.0.51 osd-hdd1
+192.168.0.52 osd-ssd0
+192.168.0.53 osd-hdd2
+192.168.0.54 osd-hdd3
+192.168.0.55 osd-ssd1
+192.168.0.56 osd-hdd4
+192.168.0.57 osd-hdd5
+192.168.0.58 osd-ssd2
+
+# compute nodes/vms
+192.168.0.70 hv0
+192.168.0.71 hv1
+192.168.0.72 hv2
+192.168.0.90 samba0
+
+# For reference
+# https://villagechurch.atlassian.net/wiki/spaces/ITD/pages/530382882/Ceph+Networking
+# https://villagechurch.atlassian.net/wiki/spaces/ITD/pages/254836751/Surrey+Ministry+Centre+-+Main+IP+Addresses
