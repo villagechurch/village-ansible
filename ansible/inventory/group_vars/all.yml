@@ -1,0 +1,43 @@
+---
+# file: group_vars/all
+
+username: iwiebe
+full_name: Isaac Wiebe
+shell: /usr/bin/zsh
+user_password: vault_iwiebe_password
+# define the key_name if you want to send your workstation key to server user
+#key_name: id_rsa
+
+github_user: iwiebe
+
+ansible_user: root
+
+# define network
+client_gw: "192.168.0.1"
+client_dns4: "192.168.0.2"
+storage_gw: "192.168.50.1"
+
+#Team vars
+nmcli_team:
+  - conn_name: client-side
+    ip4: '{{ client_ip }}'
+    gw4: '{{ client_gw }}'
+    dns4: '{{ client_dns4 }}'
+  - conn_name: storage-side
+    ip4: '{{ storage_ip }}'
+    gw4: '{{ storage_gw }}'
+nmcli_team_slave:
+  - conn_name: p2p1
+    ifname: p2p1
+    master: client-side
+  - conn_name: p2p2
+    ifname: p2p2
+    master: storage-side
+
+#ethernet vars
+nmcli_ethernet:
+  - conn_name: "client-side-{{ client_ifname }}"
+    ifname: "{{ client_ifname }}"
+    ip4: '{{ client_ip }}'
+    gw4: '{{ client_gw }}'
+    dns4: '{{ client_dns4 }}'

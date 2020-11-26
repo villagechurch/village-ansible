@@ -1,0 +1,14 @@
+---
+# file: host_vars/dns0.yml
+
+## add ethernet interface
+eth_type: "eth"
+client_ip: "192.168.0.2/23"
+client_dns4: "192.168.0.2 1.1.1.1"
+client_ifname: "ens18"
+
+## remove default interface(s)
+del_interfaces:
+  - conn_name: "ens18"
+# to list more interfaces for deletion  
+#  - conn_name: "ens19"

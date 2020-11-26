@@ -2,9 +2,10 @@
 # file: cluster.yml
 - hosts: dns
   remote_user: root
-  gather_facts: false
+  gather_facts: true
   roles:
     - common
+    - network
     - dns
 
 - hosts: ceph_mgrs

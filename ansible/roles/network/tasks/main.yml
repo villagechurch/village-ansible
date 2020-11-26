@@ -1,0 +1,63 @@
+---
+# file: roles/dns/tasks/main.yml
+
+- name: Install needed network manager libs
+  package:
+    name:
+      - NetworkManager-libnm
+      - nm-connection-editor
+      - python3-libsemanage
+      - python3-policycoreutils
+    state: present
+  when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8"
+
+- name: Try nmcli add team - conn_name only & ip4 gw4
+  community.general.nmcli:
+    type: team
+    conn_name: '{{ item.conn_name }}'
+    ip4: '{{ item.ip4 }}'
+    gw4: '{{ item.gw4 }}'
+    dns4: '{{ item.dns4 }}'
+    state: present
+  with_items:
+    - '{{ nmcli_team }}'
+  when: eth_type == "team"
+  notify:
+    - restart network
+
+- name: Try nmcli add teams-slave
+  community.general.nmcli:
+    type: team-slave
+    conn_name: '{{ item.conn_name }}'
+    ifname: '{{ item.ifname }}'
+    master: '{{ item.master }}'
+    state: present
+  with_items:
+    - '{{ nmcli_team_slave }}'
+  when: eth_type == "team"
+  notify:
+    - restart network
+
+- name: Try nmcli add Ethernet - conn_name only & ip4 gw4
+  community.general.nmcli:
+    type: ethernet
+    conn_name: '{{ item.conn_name }}'
+    ifname: '{{ item.ifname }}'
+    ip4: '{{ item.ip4 }}'
+    gw4: '{{ item.gw4 }}'
+    dns4: '{{ item.dns4 }}'
+    state: present
+  with_items:
+    - '{{ nmcli_ethernet }}'
+  notify:
+    - restart network
+
+- name: Try nmcli del interfaces - multiple
+  community.general.nmcli:
+    conn_name: '{{ item.conn_name }}'
+    state: absent
+  with_items:
+    - '{{ del_interfaces }}'
+  when: del_interfaces is defined
+  notify:
+    - restart network

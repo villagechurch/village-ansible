@@ -1,0 +1,8 @@
+---
+# file: roles/network/handlers/main.yml
+
+- name: restart network
+  service:
+    name: NetworkManager
+    state: restarted
+  when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8"
