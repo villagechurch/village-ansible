@@ -11,6 +11,16 @@
     state: present
   when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8"
 
+- name: Install needed network manager libs
+  package:
+    name:
+      - NetworkManager-glib
+      - nm-connection-editor
+      - libsemanage-python
+      - policycoreutils-python
+    state: present
+  when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
+
 - name: Try nmcli add team - conn_name only & ip4 gw4
   community.general.nmcli:
     type: team

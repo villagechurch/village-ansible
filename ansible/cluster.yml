@@ -10,21 +10,22 @@
 
 - hosts: ceph_mgrs
   remote_user: root
-  gather_facts: false
+  gather_facts: true
   roles:
     - common
+    - network
     - ceph-adm
 
 - hosts: ceph_mons
   remote_user: root
-  gather_facts: false
+  gather_facts: true
   roles:
     - common
     - ceph-host
 
 - hosts: ceph_osds
   remote_user: root
-  gather_facts: false
+  gather_facts: true
   roles:
    - common
    - ceph-host
@@ -39,7 +40,7 @@
 
 - hosts: samba
   remote_user: root
-  gather_facts: false
+  gather_facts: true
   roles:
     - common
     - ceph-client
