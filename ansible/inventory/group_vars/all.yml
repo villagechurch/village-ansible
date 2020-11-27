@@ -12,12 +12,15 @@ github_user: iwiebe
 
 ansible_user: root
 
-# define network
+# system vars
+hostname: "{{ inventory_hostname }}"
+
+## define network
 client_gw: "192.168.0.1"
 client_dns4: "192.168.0.2"
 storage_gw: "192.168.50.1"
 
-#Team vars
+## team vars
 nmcli_team:
   - conn_name: client-side
     ip4: '{{ client_ip }}'
@@ -34,7 +37,7 @@ nmcli_team_slave:
     ifname: p2p2
     master: storage-side
 
-#ethernet vars
+## ethernet vars
 nmcli_ethernet:
   - conn_name: "client-side-{{ client_ifname }}"
     ifname: "{{ client_ifname }}"

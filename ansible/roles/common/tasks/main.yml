@@ -1,12 +1,12 @@
 ---
 # file: roles/common/tasks/main.yml
 
-- name: be sure chrony is installed
+- name: be sure packages are installed
   package:
-    name: chrony
+    name: 
+      - chrony
+      - bind-utils
     state: present
-  become: yes
-  tags: first-run
 
 - name: be sure chronyd is running and enabled
   service:
@@ -17,3 +17,13 @@
 - name: ensure timezone is UTC
   timezone:
     name: UTC
+
+- name: set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: add FQDN line to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1   {{ hostname }}.thisisvillage.church {{ hostname }}"
+    state: present

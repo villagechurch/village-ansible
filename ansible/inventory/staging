@@ -3,21 +3,20 @@
 [dns]
 dns0 ansible_host=192.168.0.2
 
-# [master_node]
-# master ansible_host=192.168.0.40
-# 
-# [mgrs]
-# mgr0 ansible_host=192.168.0.41
-# 
-# [mons]
-# mon0 ansible_host=192.168.0.42
-# mon1 ansible_host=192.168.0.43
-# 
-# [osds]
-# hdd0 ansible_host=192.168.0.50
-# hdd1 ansible_host=192.168.0.51
-# ssd0 ansible_host=192.168.0.52
-# hdd2 ansible_host=192.168.0.53
+[ceph_mgrs]
+host-mgr0 ansible_host=192.168.0.40
+
+[ceph_mons]
+host-mon0 ansible_host=192.168.0.41
+host-mon1 ansible_host=192.168.0.42
+host-mon2 ansible_host=192.168.0.43
+
+[ceph_osds]
+osd-hdd0 ansible_host=192.168.0.50
+osd-hdd1 ansible_host=192.168.0.51
+osd-ssd0 ansible_host=192.168.0.52
+osd-hdd2 ansible_host=192.168.0.53
+osd-ssd1 ansible_host=192.168.0.55
 
 [staging:children]
 dns
