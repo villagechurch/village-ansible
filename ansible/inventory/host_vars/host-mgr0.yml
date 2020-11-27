@@ -1,13 +1,13 @@
 ---
-# file: host_vars/dns0.yml
+# file: host_vars/host-mgr0.yml
 
 ## system vars
 
 ## add ethernet interface
 eth_type: "eth"
-client_dns4: "192.168.0.2 1.1.1.1"
-client_ifname: "ens18"
+client_ifname: "enp3s0"
 
 ## remove default interface(s)
 del_interfaces:
-  - conn_name: "ens18"
+  - conn_name: "enp3s0"  
+  - conn_name: "enp4s0"
