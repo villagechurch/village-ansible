@@ -14,7 +14,7 @@ ansible_user: root
 
 # system/default vars
 hostname: "{{ inventory_hostname }}"
-client_ip: "{{ ansible_host }}"
+client_ip: "{{ ansible_host }}/23"
 
 ## define network
 client_gw: "192.168.0.1"
