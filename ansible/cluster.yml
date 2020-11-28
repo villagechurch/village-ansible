@@ -21,6 +21,7 @@
   gather_facts: true
   roles:
     - common
+    - network
     - ceph-host
 
 - hosts: ceph_osds
