@@ -1,0 +1,13 @@
+---
+# file: group_vars/ceph_mons.yml
+
+## system vars
+
+## add ethernet interface
+eth_type: "eth"
+client_ifname: "enp3s0"
+
+## remove default interface(s)
+del_interfaces:
+  - conn_name: "enp3s0"  
+  - conn_name: "enp4s0"
