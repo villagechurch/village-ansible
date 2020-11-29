@@ -24,26 +24,26 @@
 - name: Try nmcli add team - conn_name only & ip4 gw4
   community.general.nmcli:
     type: team
-    conn_name: '{{ item.conn_name }}'
-    ip4: '{{ item.ip4 }}'
-    gw4: '{{ item.gw4 }}'
-    dns4: '{{ item.dns4 }}'
+    conn_name: "{{ item.conn_name }}"
+    ip4: "{{ item.ip4 }}"
+    gw4: "{{ item.gw4 }}"
+    dns4: "{{ item.dns4 }}"
+    mtu: "{{ item.mtu }}"
     state: present
   with_items:
-    - '{{ nmcli_team }}'
+    - "{{ nmcli_team }}"
   when: eth_type == "team"
   register: team_present
 
 - name: Try nmcli add teams-slave
   community.general.nmcli:
     type: team-slave
-    conn_name: '{{ item.conn_name }}'
-    ifname: '{{ item.ifname }}'
-    master: '{{ item.master }}'
-    mtu: "{{ item.mtu }}"
+    conn_name: "{{ item.conn_name }}"
+    ifname: "{{ item.ifname }}"
+    master: "{{ item.master }}"
     state: present
   with_items:
-    - '{{ nmcli_team_slave }}'
+    - "{{ nmcli_team_slave }}"
   when: team_present is succeeded and eth_type == "team"
   notify:
     - restart CentOS 8 network
@@ -52,14 +52,14 @@
 - name: Try nmcli add Ethernet - conn_name only & ip4 gw4
   community.general.nmcli:
     type: ethernet
-    conn_name: '{{ item.conn_name }}'
-    ifname: '{{ item.ifname }}'
-    ip4: '{{ item.ip4 }}'
-    gw4: '{{ item.gw4 }}'
-    dns4: '{{ item.dns4 }}'
+    conn_name: "{{ item.conn_name }}"
+    ifname: "{{ item.ifname }}"
+    ip4: "{{ item.ip4 }}"
+    gw4: "{{ item.gw4 }}"
+    dns4: "{{ item.dns4 }}"
     state: present
   with_items:
-    - '{{ nmcli_ethernet }}'
+    - "{{ nmcli_ethernet }}"
   when: eth_type == "eth"
   notify:
     - restart CentOS 8 network
@@ -67,10 +67,10 @@
 
 - name: Try nmcli del interfaces - multiple
   community.general.nmcli:
-    conn_name: '{{ item.conn_name }}'
+    conn_name: "{{ item.conn_name }}"
     state: absent
   with_items:
-    - '{{ del_interfaces }}'
+    - "{{ del_interfaces }}"
   when: del_interfaces is defined
   notify:
     - restart CentOS 8 network

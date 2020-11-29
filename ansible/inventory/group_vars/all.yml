@@ -27,10 +27,12 @@ nmcli_team:
     ip4: "{{ client_ip }}"
     gw4: "{{ client_gw }}"
     dns4: "{{ client_dns4 }}"
+    mtu: 9000
   - conn_name: storage-side
     ip4: "{{ storage_ip }}"
     gw4: "0.0.0.0"
     dns4: "127.0.0.1"
+    mtu: 9000
 
 ## ethernet vars
 nmcli_ethernet:

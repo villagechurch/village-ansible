@@ -11,11 +11,9 @@ eth_type: "team"
 nmcli_team_slave:
   - conn_name: client-slave-enp1s0f0
     ifname: enp1s0f0
-    mtu: "9000"
     master: client-side
   - conn_name: storage-slave-enp2s0f0
     ifname: enp2s0f0
-    mtu: "9000"
     master: storage-side
 
 ## remove default interface(s)
