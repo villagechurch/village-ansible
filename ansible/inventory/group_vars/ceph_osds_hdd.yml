@@ -1,0 +1,23 @@
+---
+# file: group_vars/ceph_osds_hdd.yml
+
+## system vars
+storage_host: "192.168.50.{{ ansible_host | regex_replace('192.168.0.') }}"
+
+## add ethernet interface
+eth_type: "eth"
+client_ifname: "eno1"
+
+## add team interface
+## TODO add team vars for 40GbE
+
+## remove default interface(s)
+del_interfaces:
+  - conn_name: "eno2"
+  - conn_name: "eno3"
+  - conn_name: "eno4"
+  - conn_name: "enp2s0f0"
+  - conn_name: "enp2s0f1"
+  - conn_name: "enp131s0f0"
+  - conn_name: "enp131s0f1"
+  - conn_name: "Team connection 1"

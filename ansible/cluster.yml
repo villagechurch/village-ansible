@@ -28,8 +28,9 @@
   remote_user: root
   gather_facts: true
   roles:
-   - common
-   - ceph-host
+    - common
+    - network
+    - ceph-host
 #   - mlnx_ofed
 #   - mlnx_mft
 

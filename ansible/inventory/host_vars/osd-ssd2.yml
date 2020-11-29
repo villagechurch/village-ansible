@@ -1,0 +1,28 @@
+---
+# file: group_vars/ceph_mons.yml
+
+## system vars
+#storage_host: "192.168.50.{{ ansible_host | regex_replace('192.168.0.') }}"
+
+## add ethernet interface
+#eth_type: "team"
+
+## add team interface
+nmcli_team_slave:
+  - conn_name: client-slave-enp1s0f0
+    ifname: enp1s0f0
+    mtu: "9000"
+    master: client-side
+  - conn_name: storage-slave-enp1s0f1
+    ifname: enp1s0f1
+    mtu: "9000"
+    master: storage-side
+
+## remove default interface(s)
+#del_interfaces:
+#  - conn_name: "ens1"
+#  - conn_name: "ens1d1"
+#  - conn_name: "enp1s0f1"
+#  - conn_name: "enp2s0f0"
+#  - conn_name: "enp2s0f1"
+#  - conn_name: "Team connection 1"

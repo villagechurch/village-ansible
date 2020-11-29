@@ -1,7 +1,7 @@
 ---
 # file: roles/dns/tasks/main.yml
 
-- name: Install needed network manager libs
+- name: Install CentOS 8 network manager libs
   package:
     name:
       - NetworkManager-libnm
@@ -11,7 +11,7 @@
     state: present
   when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8"
 
-- name: Install needed network manager libs
+- name: Install CentOS 7 network manager libs
   package:
     name:
       - NetworkManager-glib
@@ -32,8 +32,7 @@
   with_items:
     - '{{ nmcli_team }}'
   when: eth_type == "team"
-  notify:
-    - restart network
+  register: team_present
 
 - name: Try nmcli add teams-slave
   community.general.nmcli:
@@ -41,12 +40,14 @@
     conn_name: '{{ item.conn_name }}'
     ifname: '{{ item.ifname }}'
     master: '{{ item.master }}'
+    mtu: "{{ item.mtu }}"
     state: present
   with_items:
     - '{{ nmcli_team_slave }}'
-  when: eth_type == "team"
+  when: team_present is succeeded and eth_type == "team"
   notify:
-    - restart network
+    - restart CentOS 8 network
+    - restart CentOS 7 network
 
 - name: Try nmcli add Ethernet - conn_name only & ip4 gw4
   community.general.nmcli:
@@ -59,8 +60,10 @@
     state: present
   with_items:
     - '{{ nmcli_ethernet }}'
+  when: eth_type == "eth"
   notify:
-    - restart network
+    - restart CentOS 8 network
+    - restart CentOS 7 network
 
 - name: Try nmcli del interfaces - multiple
   community.general.nmcli:
@@ -70,4 +73,5 @@
     - '{{ del_interfaces }}'
   when: del_interfaces is defined
   notify:
-    - restart network
+    - restart CentOS 8 network
+    - restart CentOS 7 network

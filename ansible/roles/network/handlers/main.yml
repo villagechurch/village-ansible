@@ -1,13 +1,13 @@
 ---
 # file: roles/network/handlers/main.yml
 
-- name: restart network
+- name: restart CentOS 8 network
   service:
     name: NetworkManager
     state: restarted
   when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8"
 
-- name: restart network
+- name: restart CentOS 7 network
   service:
     name: network
     state: restarted

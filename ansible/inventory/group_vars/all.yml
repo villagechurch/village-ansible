@@ -15,33 +15,27 @@ ansible_user: root
 # system/default vars
 hostname: "{{ inventory_hostname }}"
 client_ip: "{{ ansible_host }}/23"
+storage_ip: "{{ storage_host }}/24"
 
 ## define network
 client_gw: "192.168.0.1"
 client_dns4: "192.168.0.2"
-storage_gw: "192.168.50.1"
 
 ## team vars
 nmcli_team:
   - conn_name: client-side
-    ip4: '{{ client_ip }}'
-    gw4: '{{ client_gw }}'
-    dns4: '{{ client_dns4 }}'
+    ip4: "{{ client_ip }}"
+    gw4: "{{ client_gw }}"
+    dns4: "{{ client_dns4 }}"
   - conn_name: storage-side
-    ip4: '{{ storage_ip }}'
-    gw4: '{{ storage_gw }}'
-nmcli_team_slave:
-  - conn_name: p2p1
-    ifname: p2p1
-    master: client-side
-  - conn_name: p2p2
-    ifname: p2p2
-    master: storage-side
+    ip4: "{{ storage_ip }}"
+    gw4: "0.0.0.0"
+    dns4: "127.0.0.1"
 
 ## ethernet vars
 nmcli_ethernet:
   - conn_name: "client-side-{{ client_ifname }}"
     ifname: "{{ client_ifname }}"
-    ip4: '{{ client_ip }}'
-    gw4: '{{ client_gw }}'
-    dns4: '{{ client_dns4 }}'
+    ip4: "{{ client_ip }}"
+    gw4: "{{ client_gw }}"
+    dns4: "{{ client_dns4 }}"
