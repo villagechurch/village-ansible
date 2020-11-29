@@ -4,10 +4,26 @@ ARG1=$1
 
 cd ansible
 
-if [ -z "$ARG1" ]; then
-  echo "Targetting All hosts in inventory"
-  ansible-playbook -i inventory/staging cluster.yml
-else
-  echo "Targetting $ARG1 hosts in inventory"
-  ansible-playbook -l $ARG1 -i inventory/staging cluster.yml
+
+while getopts ":g:d" opt; do
+  case $opt in
+    g)
+      echo -e "\n*********\nTargetting $OPTARG hosts in inventory\n*********\n" >&2
+      command="ansible-playbook -l $OPTARG -i inventory/staging cluster.yml"
+      ;;
+    d)
+      dflag=1
+      ;;
+    \?)
+      echo -e "\n*********\nTargetting All hosts in inventory\n*********\n" >&2
+      command="ansible-playbook -i inventory/staging cluster.yml"
+      ;;
+  esac
+done
+
+if [ ! -z "$dflag" ]; then
+    command+=" --check"
 fi
+
+echo -e "*********\n$command\n*********\n" >&2
+eval "$command"
