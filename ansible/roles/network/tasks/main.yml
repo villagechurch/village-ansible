@@ -49,6 +49,8 @@
     - restart CentOS 8 network
     - restart CentOS 7 network
 
+## ADD a Team clean up task similar to nmcli del interfaces
+
 - name: Try nmcli add Ethernet - conn_name only & ip4 gw4
   community.general.nmcli:
     type: ethernet

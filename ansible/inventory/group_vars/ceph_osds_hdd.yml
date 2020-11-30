@@ -5,15 +5,20 @@
 storage_host: "192.168.50.{{ ansible_host | regex_replace('192.168.0.') }}"
 
 ## add ethernet interface
-eth_type: "eth"
-client_ifname: "eno1"
+eth_type: "team"
 
 ## add team interface
-## TODO add team vars for 40GbE
+nmcli_team_slave:
+  - conn_name: client-slave-eno1
+    ifname: eno1
+    master: client-side
+  - conn_name: storage-slave-enp131s0f0
+    ifname: enp131s0f0
+    master: storage-side
+
 
 ## permitted interface(s), must be defined to clean up remaining interfaces
 permitted_interfaces:
   - "client-side"
   - "storage-side"
   - "lo"
-  - "eno1"
