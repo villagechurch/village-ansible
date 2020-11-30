@@ -16,11 +16,7 @@ nmcli_team_slave:
     ifname: enp1s0f1
     master: storage-side
 
-## remove default interface(s)
-#del_interfaces:
-#  - conn_name: "ens1"
-#  - conn_name: "ens1d1"
-#  - conn_name: "enp1s0f1"
-#  - conn_name: "enp2s0f0"
-#  - conn_name: "enp2s0f1"
-#  - conn_name: "Team connection 1"
+## permitted interface(s), must be defined to clean up remaining interfaces
+#permitted_interfaces:
+#  - "ens1"
+#  - "ens1d1"

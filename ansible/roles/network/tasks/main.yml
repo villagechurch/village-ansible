@@ -67,11 +67,11 @@
 
 - name: Try nmcli del interfaces - multiple
   community.general.nmcli:
-    conn_name: "{{ item.conn_name }}"
+    conn_name: "{{ item }}"
     state: absent
   with_items:
-    - "{{ del_interfaces }}"
-  when: del_interfaces is defined
+    - "{{ ansible_interfaces }}"
+  when: permitted_interfaces is defined and item not in permitted_interfaces
   notify:
     - restart CentOS 8 network
     - restart CentOS 7 network

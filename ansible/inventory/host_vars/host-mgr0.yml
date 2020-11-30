@@ -7,7 +7,6 @@
 eth_type: "eth"
 client_ifname: "enp3s0"
 
-## remove default interface(s)
-del_interfaces:
-  - conn_name: "enp3s0"  
-  - conn_name: "enp4s0"
+## permitted interface(s), must be defined to clean up remaining interfaces
+permitted_interfaces:
+  - "enp3s0"  

@@ -11,8 +11,8 @@ client_ip: "192.168.0.x/23"
 client_dns4: "192.168.0.2"
 client_ifname: "ens18"
 
-## remove default interface(s)
-del_interfaces:
-  - conn_name: "ens18"
-  - conn_name: "ens19"
+## permitted interface(s), must be defined to clean up remaining interfaces
+permitted_interfaces:
+  - "ens18"
+  - "ens19"
   
