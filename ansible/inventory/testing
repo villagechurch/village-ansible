@@ -1,21 +1,37 @@
-# host file for testing on-site VMs
+# This is the Testing hosts file
 
-[proxmox]
-#hv0 ansible_host=192.168.0.70
-hv1 ansible_host=192.168.0.71
-#hv2 ansible_host=192.168.0.72
+[dns]
+dns0 ansible_host=192.168.0.2
 
-[master_node]
-master ansible_host=192.168.0.89
+[ceph_mgrs]
+host-mgr0 ansible_host=192.168.0.40
 
-[osds]
-hdd0 ansible_host=192.168.0.90
+[ceph_mons]
+host-mon0 ansible_host=192.168.0.41
+host-mon1 ansible_host=192.168.0.42
+host-mon2 ansible_host=192.168.0.43
 
-[mgrs]
+[ceph_osds_hdd]
+osd-hdd0 ansible_host=192.168.0.50
+osd-hdd1 ansible_host=192.168.0.51
+osd-hdd2 ansible_host=192.168.0.53
 
+[ceph_osds_ssd]
+osd-ssd0 ansible_host=192.168.0.52
+osd-ssd1 ansible_host=192.168.0.55
+osd-ssd2 ansible_host=192.168.0.58
 
-[mons]
+[ceph_osds:children]
+ceph_osds_hdd
+ceph_osds_ssd
 
+[staging:children]
+dns
+
+[staging:vars]
+file_prefix=staging
+
+## Alpha testing ##
 [influxdb]
 influxdb0 ansible_host=192.168.0.88
 
