@@ -1,0 +1,109 @@
+# Many hosts can be added at once using ceph orch apply -i host_sepc.yml
+
+## HOST SPECIFIC SPECS ##
+---
+service_type: host
+addr: mgr0
+hostname: mgr0
+labels:
+- mon
+- mgr
+
+---
+service_type: host
+addr: mon0
+hostname: mon0
+labels:
+- mon
+
+---
+service_type: host
+addr: mon1
+hostname: mon1
+labels:
+- mon
+
+---
+service_type: host
+addr: mon2
+hostname: mon2
+labels:
+- mon
+
+---
+service_type: host
+addr: mon0
+hostname: mon0
+labels:
+- mon
+
+---
+service_type: host
+addr: osd-hdd0
+hostname: osd-hdd0
+
+---
+service_type: host
+addr: osd-hdd1
+hostname: osd-hdd1
+
+---
+service_type: host
+addr: osd-hdd2
+hostname: osd-hdd2
+
+---
+service_type: host
+addr: osd-ssd0
+hostname: osd-ssd0
+
+---
+service_type: host
+addr: osd-ssd1
+hostname: osd-ssd1
+
+---
+service_type: host
+addr: osd-ssd2
+hostname: osd-ssd2
+
+
+## OSD SPECIFIC SPECS ##
+---
+service_type: osd
+service_id: default_hdd_layout
+placement:
+  host_pattern: "ceph-osd-hdd*"
+data_devices:
+  rotational: 1
+db_devices:
+  size: '480G'
+
+---
+service_type: osd
+service_id: default_hdd_aic
+placement:
+  host_pattern: "ceph-osd-hdd*"
+data_devices:
+  size: '1600G'
+
+---
+service_type: osd
+service_id: default_ssd_layout
+placement:
+  host_pattern: "ceph-osd-ssd*"
+data_devices:
+  rotational: 0
+
+## SERVICE SPECIFIC SPECS ##
+---
+service_type: mgr
+placement:
+  count: 1
+  label: "mgr"
+
+---
+service_type: mon
+placement:
+  count: 4
+  label: "mon"
