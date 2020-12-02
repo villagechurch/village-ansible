@@ -16,7 +16,6 @@ nmcli_team_slave:
     ifname: enp131s0f0
     master: storage-side
 
-
 ## permitted interface(s), must be defined to clean up remaining interfaces
 permitted_interfaces:
   - "client-side"

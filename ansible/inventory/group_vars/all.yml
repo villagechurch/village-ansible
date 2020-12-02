@@ -20,6 +20,7 @@ storage_ip: "{{ storage_host }}/24"
 ## define network
 client_gw: "192.168.0.1"
 client_dns4: "192.168.0.2"
+storage_gw: "192.168.50.1"
 
 ## team vars
 nmcli_team:
@@ -30,7 +31,7 @@ nmcli_team:
     mtu: 9000
   - conn_name: storage-side
     ip4: "{{ storage_ip }}"
-    gw4: "0.0.0.0"
+    gw4: "{{ storage_gw }}"
     dns4: "127.0.0.1"
     mtu: 9000
 

@@ -21,7 +21,7 @@
     state: present
   when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
 
-- name: Try nmcli add team - conn_name only & ip4 gw4
+- name: Try nmcli add teams
   community.general.nmcli:
     type: team
     conn_name: "{{ item.conn_name }}"
@@ -33,9 +33,9 @@
   with_items:
     - "{{ nmcli_team }}"
   when: eth_type == "team"
-  register: team_present
+  register: team_result
 
-- name: Try nmcli add teams-slave
+- name: Try nmcli add team-slaves
   community.general.nmcli:
     type: team-slave
     conn_name: "{{ item.conn_name }}"
@@ -44,14 +44,15 @@
     state: present
   with_items:
     - "{{ nmcli_team_slave }}"
-  when: team_present is succeeded and eth_type == "team"
+  when: team_result is succeeded and eth_type == "team"
+  register: slave_result
   notify:
     - restart CentOS 8 network
     - restart CentOS 7 network
 
 ## ADD a Team clean up task similar to nmcli del interfaces
 
-- name: Try nmcli add Ethernet - conn_name only & ip4 gw4
+- name: Try nmcli add Ethernet
   community.general.nmcli:
     type: ethernet
     conn_name: "{{ item.conn_name }}"
@@ -63,17 +64,52 @@
   with_items:
     - "{{ nmcli_ethernet }}"
   when: eth_type == "eth"
+  register: eth_result
   notify:
     - restart CentOS 8 network
     - restart CentOS 7 network
 
-- name: Try nmcli del interfaces - multiple
+- name: Get nmcli connections - multiple
+  command: "nmcli -t -f NAME con"
+  register: nmcli_connections
+
+- name: Make permitted_connctions list
+  set_fact:
+    permitted_connctions: []
+
+- name: Add Teams to permitted_connections  
+  set_fact:
+    permitted_connctions: "{{ permitted_connctions + team_result.results | map(attribute='conn_name') | list }}"
+  when: eth_type == "team"
+
+- name: Add Team-slaves to permitted_connections  
+  set_fact:
+    permitted_connctions: "{{ permitted_connctions + slave_result.results | map(attribute='conn_name') | list }}"
+  when: team_result is succeeded and eth_type == "team"
+
+- name: Add Ethernet to permitted_connections  
+  set_fact:
+    permitted_connctions: "{{ permitted_connctions + eth_result.results | map(attribute='conn_name') | list }}"
+  when: eth_type == "eth"
+
+- name: list stdout.lines
+  debug:
+    msg: "{{ nmcli_connections.stdout_lines | list }}"
+
+- name: list permitted_connections
+  debug:
+    msg: "{{ item }}"
+  with_items:
+    - "{{ nmcli_connections.stdout_lines | list }}"
+  when: item not in permitted_connctions
+  
+- name: Try nmcli del interfaces not in permitted_connections
   community.general.nmcli:
     conn_name: "{{ item }}"
     state: absent
   with_items:
-    - "{{ ansible_interfaces }}"
-  when: permitted_interfaces is defined and item not in permitted_interfaces
+    - "{{ nmcli_connections.stdout_lines | list }}"
+  when: item not in permitted_connctions
   notify:
     - restart CentOS 8 network
     - restart CentOS 7 network
