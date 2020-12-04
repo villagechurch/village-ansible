@@ -1,39 +1,39 @@
-# Many hosts can be added at once using ceph orch apply -i host_sepc.yml
+# Many hosts can be added at once using ceph orch apply -i placement_sepc.yml
 
 ## HOST SPECIFIC SPECS ##
 ---
 service_type: host
-addr: mgr0
-hostname: mgr0
+addr: host-mgr0
+hostname: host-mgr0
 labels:
 - mon
 - mgr
 
 ---
 service_type: host
-addr: mon0
-hostname: mon0
+addr: host-mon0
+hostname: host-mon0
 labels:
 - mon
 
 ---
 service_type: host
-addr: mon1
-hostname: mon1
+addr: host-mon1
+hostname: host-mon1
 labels:
 - mon
 
 ---
 service_type: host
-addr: mon2
-hostname: mon2
+addr: host-mon2
+hostname: host-mon2
 labels:
 - mon
 
 ---
 service_type: host
-addr: mon0
-hostname: mon0
+addr: host-mon0
+hostname: host-mon0
 labels:
 - mon
 
@@ -73,7 +73,7 @@ hostname: osd-ssd2
 service_type: osd
 service_id: default_hdd_layout
 placement:
-  host_pattern: "ceph-osd-hdd*"
+  host_pattern: "osd-hdd*"
 data_devices:
   rotational: 1
 db_devices:
@@ -83,7 +83,7 @@ db_devices:
 service_type: osd
 service_id: default_hdd_aic
 placement:
-  host_pattern: "ceph-osd-hdd*"
+  host_pattern: "osd-hdd*"
 data_devices:
   size: '1600G'
 
@@ -91,7 +91,7 @@ data_devices:
 service_type: osd
 service_id: default_ssd_layout
 placement:
-  host_pattern: "ceph-osd-ssd*"
+  host_pattern: "osd-ssd*"
 data_devices:
   rotational: 0
 
@@ -107,3 +107,25 @@ service_type: mon
 placement:
   count: 4
   label: "mon"
+
+---
+service_type: node-exporter
+placement:
+  host_pattern: "*"
+
+---
+service_type: alertmanager
+placement:
+  count: 1
+
+---
+service_type: prometheus
+placement:
+  count: 1
+  label: "mgr"
+
+---
+service_type: grafana
+placement:
+  count: 1
+  label: "mgr"

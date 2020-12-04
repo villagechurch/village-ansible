@@ -23,16 +23,32 @@
     - install cephadm
     - install ceph-common
 
-- name: Copy ssh config
-  copy: 
-    src: "ssh_config"
-    dest: "/root/.ssh/config" 
-    mode: 0600
-#  notify:
-#    - update ceph ssh config
-
 - name: Copy host service spec
   copy: 
     src: "placement_spec.yml"
     dest: "/root/placement_spec.yml" 
     mode: 0755
+
+- name: check for ceph keyring - proof of cluster bootstrap
+  stat:
+    path: /etc/ceph/ceph.client.admin.keyring
+  register: keyring_result
+
+- name: Copy ssh config
+  copy: 
+    src: "ssh_config"
+    dest: "/root/.ssh/config" 
+    mode: 0600
+  notify:
+    - update ceph ssh config
+
+- name: copy ssh private key to root
+  shell: "ceph config-key get mgr/cephadm/ssh_identity_key > /root/.ssh/ceph.key"
+  when: keyring_result.stat.exists
+
+- name: check ssh private key permissions
+  file:
+    path: /root/.ssh/ceph.key
+    owner: root
+    group: root
+    mode: '0600'

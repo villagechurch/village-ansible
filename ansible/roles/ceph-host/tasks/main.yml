@@ -11,3 +11,21 @@
       - python3
     state: present
   become: yes
+
+- name: get ssh key from cephadm
+  command: "ceph cephadm get-pub-key"
+  delegate_to: "{{ hostvars['host-mgr0'].ansible_host }}"
+  run_once: true
+  register: cephadm_pubkey
+  ignore_errors: true
+
+- name: show ssh key from cephadm
+  debug:
+    msg: "{{ cephadm_pubkey }}"
+
+- name: populate authorized_keys
+  authorized_key:
+    user: root
+    key: "{{ cephadm_pubkey.stdout }}"
+    state: present
+  when: cephadm_pubkey.changed

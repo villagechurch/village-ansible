@@ -15,6 +15,7 @@
     - common
     - network
     - ceph-adm
+    - ceph-host
 
 - hosts: ceph_mons
   remote_user: root

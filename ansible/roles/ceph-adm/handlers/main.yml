@@ -18,3 +18,5 @@
 
 - name: update ceph ssh config
   command: "ceph cephadm set-ssh-config -i /root/.ssh/config"
+  when: keyring_result.stat.exists
+  
