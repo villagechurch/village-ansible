@@ -95,6 +95,7 @@
 - name: list stdout.lines
   debug:
     msg: "{{ nmcli_connections.stdout_lines | list }}"
+  ignore_errors: true
 
 - name: list permitted_connections
   debug:
@@ -102,6 +103,7 @@
   with_items:
     - "{{ nmcli_connections.stdout_lines | list }}"
   when: item not in permitted_connctions
+  ignore_errors: true
   
 - name: Try nmcli del interfaces not in permitted_connections
   community.general.nmcli:
@@ -113,3 +115,4 @@
   notify:
     - restart CentOS 8 network
     - restart CentOS 7 network
+  ignore_errors: true

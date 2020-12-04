@@ -12,12 +12,12 @@
 - name: centos7 ensure the EPEL key is in place
   rpm_key:
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-7
-  when: ansible_distribution == 'CentOS' and ansible_distribution_version == '7.8'
+  when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
 
 - name: centos 8 ensure the EPEL key is in place
   rpm_key:
     key: /etc/pki/rpm-gpg/RPM-GPG-KEY-EPEL-8
-  when: ansible_distribution == 'CentOS' and ansible_distribution_version == '8.2'
+  when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8"
 
 - name: upgrade installed packages
   package:
