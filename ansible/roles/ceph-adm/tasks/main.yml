@@ -25,9 +25,10 @@
 
 - name: Copy host service spec
   copy: 
-    src: "placement_spec.yml"
-    dest: "/root/placement_spec.yml" 
-    mode: 0755
+    src: "specs"
+    dest: "/root/" 
+    mode: 0655
+    directory_mode:
 
 - name: check for ceph keyring - proof of cluster bootstrap
   stat:

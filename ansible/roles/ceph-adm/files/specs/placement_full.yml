@@ -15,6 +15,7 @@ addr: host-mon0
 hostname: host-mon0
 labels:
 - mon
+- mgr
 
 ---
 service_type: host
@@ -99,7 +100,7 @@ data_devices:
 ---
 service_type: mgr
 placement:
-  count: 1
+  count: 2
   label: "mgr"
 
 ---

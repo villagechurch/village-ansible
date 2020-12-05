@@ -19,9 +19,9 @@
   register: cephadm_pubkey
   ignore_errors: true
 
-- name: show ssh key from cephadm
-  debug:
-    msg: "{{ cephadm_pubkey }}"
+#- name: show ssh key from cephadm
+#  debug:
+#    msg: "{{ cephadm_pubkey }}"
 
 - name: populate authorized_keys
   authorized_key:
