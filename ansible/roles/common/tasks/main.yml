@@ -7,12 +7,14 @@
       - chrony
       - bind-utils
     state: present
+  tags: first_run
 
 - name: be sure chronyd is running and enabled
   service:
     name: chronyd
     state: started
     enabled: yes
+  tags: first_run
 
 - name: ensure timezone is UTC
   timezone:
@@ -21,9 +23,11 @@
 - name: set hostname
   hostname:
     name: "{{ hostname }}"
+  tags: first_run
 
 - name: add FQDN line to /etc/hosts
   lineinfile:
     path: /etc/hosts
     line: "127.0.0.1   {{ hostname }}.thisisvillage.church {{ hostname }}"
     state: present
+  tags: first_run

@@ -9,11 +9,11 @@ while getopts ":g:d" opt; do
   case $opt in
     a)
       echo -e "\n*********\nTargetting ALL hosts in inventory\n*********\n" >&2
-      command="ansible-playbook -i inventory/staging cluster.yml"
+      command="ansible-playbook -i inventory/staging cluster.yml --skip-tags first_run"
       ;;
     g)
       echo -e "\n*********\nTargetting $OPTARG hosts in inventory\n*********\n" >&2
-      command="ansible-playbook -l $OPTARG -i inventory/staging cluster.yml"
+      command="ansible-playbook -l $OPTARG -i inventory/staging cluster.yml --skip-tags first_run"
       ;;
     d)
       dflag=1
