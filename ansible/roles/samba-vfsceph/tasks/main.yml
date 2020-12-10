@@ -6,6 +6,7 @@
     name:
       - samba
     state: present
+  tags: first_run
 
 - name: be sure samba is running and enabled
   service:
@@ -30,7 +31,9 @@
     state: enabled
   notify:
     - restart firewalld
+  tags: first_run
 
+## avahi service traffic permitted through firewall as a part of bootstrap
 - name: copy avahi service config
   copy: 
     src: "smb.service.avahi"
@@ -39,14 +42,42 @@
   notify:
     - restart avahi-daemon
 
-## avahi service traffic permitted through firewall as a part of bootstrap
+- name: Create Samba shares root directory
+  file:
+    state: directory
+    path: "/mnt/ceph"
+    owner: root
+    group: root
+    mode: '0755'
+  tags: first_run
+
+
+# ** cephfs mount - production ** #
+- name: create production user
+  user:
+    name: "production"
+    comment: "Village Production"
+    groups: "users"
+    shell: "/sbin/nologin"
+    state: present
+  register: user
+
+- name: create production mount directory
+  file:
+    state: directory
+    path: "/mnt/ceph/production"
+    owner: "root"
+    group: "users"
+    mode: "0775"
 
 - name: ensure ceph-fuse mount is persistent
   lineinfile:
     path: /etc/fstab
-    regexp: '^none    \/mnt\/mycephfs  fuse\.ceph ceph\.id=samba0,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
-    line: 'none    /mnt/mycephfs  fuse.ceph ceph.id=samba0,ceph.conf=/etc/ceph/ceph.conf,_netdev,defaults  0 0'
-
+    regexp: '^none    \/mnt\/ceph\/production  fuse\.ceph ceph\.id=samba0,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
+    line: 'none    /mnt/ceph/production  fuse.ceph ceph.id=samba0,ceph.conf=/etc/ceph/ceph.conf,_netdev,defaults  0 0'
+  notify:
+    - remount all partitions
+  ignore_errors: true
 
 #- name: Put SELinux in permissive mode, logging actions that would be blocked.
 #  ansible.posix.selinux:

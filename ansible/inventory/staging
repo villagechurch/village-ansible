@@ -3,6 +3,9 @@
 [dns]
 dns0 ansible_host=192.168.0.2
 
+[samba]
+samba0 ansible_host=192.168.0.3
+
 [ceph_mgrs]
 host-mgr0 ansible_host=192.168.0.40
 
@@ -27,6 +30,7 @@ ceph_osds_ssd
 
 [staging:children]
 dns
+samba
 
 [staging:vars]
 file_prefix=staging

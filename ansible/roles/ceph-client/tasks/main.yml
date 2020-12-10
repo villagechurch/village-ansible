@@ -11,8 +11,9 @@
       - python3
     state: present
   become: yes
+  tags: first_run
   
-- name: fetch cephadm script
+- name: fetch ceph
   get_url:
     url: https://raw.githubusercontent.com/ceph/ceph/octopus/src/cephadm/cephadm
     dest: /root/cephadm
@@ -20,8 +21,30 @@
   notify:
     - create ceph directory
     - add ceph repo
+    - install ceph-fuse package
+  tags: first_run
 
-- name: install ceph-fuse package
-  package:
-    name: ceph-fuse
-    state: present
+- name: get ceph conf from a mon
+  command: "ceph config generate-minimal-conf"
+  delegate_to: "{{ hostvars['host-mgr0'].ansible_host }}"
+  run_once: true
+  register: ceph_conf
+  ignore_errors: true
+
+#- name: show ceph conf
+#  debug:
+#    msg: "{{ ceph_conf }}"
+
+#- name: populate authorized_keys
+#  authorized_key:
+#    user: root
+#    key: "{{ cephadm_pubkey.stdout }}"
+#    state: present
+#  when: cephadm_pubkey.changed
+#
+- name: copy ceph minimal config
+  copy: 
+    content: "{{ ceph_conf.stdout }}"
+    dest: "/etc/ceph/ceph.conf" 
+    mode: 0644
+  ignore_errors: true

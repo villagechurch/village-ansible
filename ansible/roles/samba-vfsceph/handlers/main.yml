@@ -15,3 +15,6 @@
   service:
     name: avahi-daemon
     state: restarted
+
+- name: remount all partitions
+  shell: "mount -a"
