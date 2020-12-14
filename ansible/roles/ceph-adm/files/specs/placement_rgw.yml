@@ -1,0 +1,7 @@
+## SERVICE SPECIFIC SPECS ##
+---
+service_type: rgw
+service_id: "village.ca-west-1"
+placement:
+  count: 3
+  host_pattern: "osd-ssd*"

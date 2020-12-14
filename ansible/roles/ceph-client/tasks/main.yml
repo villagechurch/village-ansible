@@ -24,27 +24,55 @@
     - install ceph-fuse package
   tags: first_run
 
-- name: get ceph conf from a mon
-  command: "ceph config generate-minimal-conf"
+- name: make ceph conf from the mgr
+  shell: "ceph config generate-minimal-conf | tee /root/ceph.conf"
   delegate_to: "{{ hostvars['host-mgr0'].ansible_host }}"
   run_once: true
   register: ceph_conf
   ignore_errors: true
 
-#- name: show ceph conf
-#  debug:
-#    msg: "{{ ceph_conf }}"
+- name: fetch ceph minimal config
+  fetch: 
+    src: "/root/ceph.conf"
+    dest: "/tmp/fetched/"
+    flat: "yes"
+  delegate_to: "{{ hostvars['host-mgr0'].ansible_host }}"
+  run_once: true
+  ignore_errors: true
+  register: fetch_config
 
-#- name: populate authorized_keys
-#  authorized_key:
-#    user: root
-#    key: "{{ cephadm_pubkey.stdout }}"
-#    state: present
-#  when: cephadm_pubkey.changed
-#
 - name: copy ceph minimal config
   copy: 
-    content: "{{ ceph_conf.stdout }}"
-    dest: "/etc/ceph/ceph.conf" 
+    src: "/tmp/fetched/ceph.conf"
+    dest: "/etc/ceph/ceph.conf"
     mode: 0644
   ignore_errors: true
+
+- name: create cephx user and get key
+  shell: "ceph fs authorize village_general client.{{ inventory_hostname }} / rw | tee /root/ceph.client.{{ inventory_hostname }}.keyring"
+  delegate_to: "{{ hostvars['host-mgr0'].ansible_host }}"
+  run_once: true
+  ignore_errors: true
+
+- name: fetch ceph keyring
+  fetch: 
+    src: "/root/ceph.client.{{ inventory_hostname }}.keyring"
+    dest: "/tmp/fetched/"
+    flat: "yes"
+  delegate_to: "{{ hostvars['host-mgr0'].ansible_host }}"
+  run_once: true
+  ignore_errors: true
+  register: fetch_config
+
+- name: copy ceph keyring
+  copy: 
+    src: "/tmp/fetched/ceph.client.{{ inventory_hostname }}.keyring"
+    dest: "/etc/ceph/ceph.client.{{ inventory_hostname }}.keyring"
+    mode: 0600
+  ignore_errors: true
+
+- name: enable ceph-fuse.target
+  service:
+    name: ceph-fuse.target
+    state: started
+    enabled: yes

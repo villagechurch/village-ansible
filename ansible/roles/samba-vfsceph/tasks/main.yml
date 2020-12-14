@@ -68,16 +68,23 @@
     path: "/mnt/ceph/production"
     owner: "root"
     group: "users"
-    mode: "0775"
+    mode: "2775"
 
 - name: ensure ceph-fuse mount is persistent
   lineinfile:
     path: /etc/fstab
-    regexp: '^none    \/mnt\/ceph\/production  fuse\.ceph ceph\.id=samba0,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
-    line: 'none    /mnt/ceph/production  fuse.ceph ceph.id=samba0,ceph.conf=/etc/ceph/ceph.conf,_netdev,defaults  0 0'
+    regexp: '^none    \/mnt\/ceph\/production  fuse\.ceph ceph\.id={{ inventory_hostname }},ceph.client_mountpoint=\/production,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
+    line: 'none    /mnt/ceph/production  fuse.ceph ceph.id={{ inventory_hostname }},ceph.client_mountpoint=/production,ceph.conf=/etc/ceph/ceph.conf,_netdev,defaults  0 0'
   notify:
     - remount all partitions
   ignore_errors: true
+
+- name: start ceph-fuse services
+  service: 
+    name: "ceph-fuse@-mnt-ceph-production.service"
+    state: started
+    enabled: yes
+  tags: first_run
 
 #- name: Put SELinux in permissive mode, logging actions that would be blocked.
 #  ansible.posix.selinux:

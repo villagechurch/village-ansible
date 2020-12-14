@@ -36,6 +36,7 @@
   stat:
     path: /etc/ceph/ceph.client.admin.keyring
   register: keyring_result
+  tags: first_run
 
 - name: Copy ssh config
   copy: 
@@ -48,6 +49,7 @@
 - name: copy ssh private key to root
   shell: "ceph config-key get mgr/cephadm/ssh_identity_key > /root/.ssh/ceph.key"
   when: keyring_result.stat.exists
+  tags: first_run
 
 - name: check ssh private key permissions
   file:
@@ -55,3 +57,4 @@
     owner: root
     group: root
     mode: '0600'
+  tags: first_run
