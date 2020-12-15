@@ -8,6 +8,21 @@
     - network
     - dns
 
+- hosts: rancher
+  remote_user: root
+  gather_facts: true
+  roles:
+    - common
+    - k3s-linux
+
+- hosts: samba
+  remote_user: root
+  gather_facts: true
+  roles:
+    - common
+    - ceph-client
+    - samba-vfsceph
+
 - hosts: ceph_mgrs
   remote_user: root
   gather_facts: true
@@ -40,11 +55,3 @@
 #  gather_facts: true
 #  roles:
 #    - cluster
-
-- hosts: samba
-  remote_user: root
-  gather_facts: true
-  roles:
-    - common
-    - ceph-client
-    - samba-vfsceph

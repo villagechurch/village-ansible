@@ -1,0 +1,5 @@
+---
+# file: roles/k3s-linux/handlers/main.yml
+
+- name: reboot
+  reboot:

@@ -3,8 +3,15 @@
 [dns]
 dns0 ansible_host=192.168.0.2
 
+[rancher]
+morgoth ansible_host=192.168.0.7
+sauron ansible_host=192.168.0.8
+saruman ansible_host=192.168.0.9
+
 [samba]
 samba0 ansible_host=192.168.0.3
+
+## ceph hosts ##
 
 [ceph_mgrs]
 host-mgr0 ansible_host=192.168.0.40
@@ -28,8 +35,11 @@ osd-ssd2 ansible_host=192.168.0.58
 ceph_osds_hdd
 ceph_osds_ssd
 
+## end ceph hosts ##
+
 [staging:children]
 dns
+rancher
 samba
 
 [staging:vars]
