@@ -9,15 +9,11 @@ eth_type: "team"
 
 ## add team interface
 nmcli_team_slave:
-  - conn_name: client-slave-eno1
-    ifname: eno1
-    master: client-side
-  - conn_name: storage-slave-enp131s0f0
+  - conn_name: client-slave-enp131s0f0
     ifname: enp131s0f0
-    master: storage-side
+    master: client-side
 
 ## permitted interface(s), must be defined to clean up remaining interfaces
 permitted_interfaces:
   - "client-side"
-  - "storage-side"
   - "lo"

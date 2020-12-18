@@ -3,7 +3,12 @@
 [dns]
 dns0 ansible_host=192.168.0.2
 
-[rancher]
+[k3s_cmd]
+nenya ansible_host=192.168.0.17
+narya ansible_host=192.168.0.18
+vilya ansible_host=192.168.0.19
+
+[k3s_workload]
 morgoth ansible_host=192.168.0.7
 sauron ansible_host=192.168.0.8
 saruman ansible_host=192.168.0.9
@@ -39,7 +44,8 @@ ceph_osds_ssd
 
 [staging:children]
 dns
-rancher
+k3s_cmd
+k3s_workload
 samba
 
 [staging:vars]

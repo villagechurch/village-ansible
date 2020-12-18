@@ -8,7 +8,14 @@
     - network
     - dns
 
-- hosts: rancher
+- hosts: k3s_cmd
+  remote_user: root
+  gather_facts: true
+  roles:
+    - common
+    - k3s-linux
+
+- hosts: k3s_workload
   remote_user: root
   gather_facts: true
   roles:
@@ -28,7 +35,7 @@
   gather_facts: true
   roles:
     - common
-    - network
+#    - network
     - ceph-adm
     - ceph-host
 
@@ -37,7 +44,7 @@
   gather_facts: true
   roles:
     - common
-    - network
+#    - network
     - ceph-host
 
 - hosts: ceph_osds
@@ -45,7 +52,7 @@
   gather_facts: true
   roles:
     - common
-    - network
+#    - network
     - ceph-host
 #   - mlnx_ofed
 #   - mlnx_mft

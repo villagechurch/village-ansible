@@ -5,6 +5,16 @@
 # services
 192.168.0.2 dns0
 
+#k3s_cmd
+192.168.0.17 narya
+192.168.0.18 nenya
+192.168.0.19 vilya
+
+#k3s_workload
+192.168.0.7 morgoth
+192.168.0.8 sauron
+192.168.0.9 saruman
+
 # ceph
 192.168.0.40 host-mgr0
 192.168.0.41 host-mon0

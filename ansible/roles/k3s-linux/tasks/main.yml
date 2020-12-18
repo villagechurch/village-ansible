@@ -8,3 +8,40 @@
     replace: '# \1'
   tags: first_run
   notify: reboot
+
+# Network settings for k3s https://rancher.com/docs/k3s/latest/en/installation/installation-requirements/#networking
+- name: permit traffic in default zone for k8s API Server
+  ansible.posix.firewalld:
+    port: 6443/tcp
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld
+  tags: first_run
+
+- name: permit traffic in default zone for Flannel VXLAN
+  ansible.posix.firewalld:
+    port: 8472/udp
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld
+  tags: first_run
+
+- name: permit traffic in default zone for kubelet metrics
+  ansible.posix.firewalld:
+    port: 10250/tcp
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld
+  tags: first_run
+
+- name: permit traffic in default zone for HA embedded etcd
+  ansible.posix.firewalld:
+    port: 2379-2380/tcp
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld
+  tags: first_run
