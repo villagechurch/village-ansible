@@ -4,11 +4,10 @@
 
 # services
 192.168.0.2 dns0
+192.168.0.3 palantir0
 
 #k3s_cmd
-192.168.0.17 narya
-192.168.0.18 nenya
-192.168.0.19 vilya
+192.168.0.6 onering
 
 #k3s_workload
 192.168.0.7 morgoth

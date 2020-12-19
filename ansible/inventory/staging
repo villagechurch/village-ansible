@@ -4,9 +4,7 @@
 dns0 ansible_host=192.168.0.2
 
 [k3s_cmd]
-nenya ansible_host=192.168.0.17
-narya ansible_host=192.168.0.18
-vilya ansible_host=192.168.0.19
+onering ansible_host=192.168.0.6
 
 [k3s_workload]
 morgoth ansible_host=192.168.0.7
@@ -14,7 +12,10 @@ sauron ansible_host=192.168.0.8
 saruman ansible_host=192.168.0.9
 
 [samba]
-samba0 ansible_host=192.168.0.3
+samba0 ansible_host=192.168.0.82
+
+[nginx]
+palantir ansible_host=192.168.0.3
 
 ## ceph hosts ##
 
@@ -47,6 +48,7 @@ dns
 k3s_cmd
 k3s_workload
 samba
+nginx
 
 [staging:vars]
 file_prefix=staging

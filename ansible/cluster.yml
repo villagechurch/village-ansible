@@ -7,6 +7,13 @@
     - common
     - network
     - dns
+    
+- hosts: nginx
+  remote_user: root
+  gather_facts: true
+  roles:
+    - common
+    - nginx
 
 - hosts: k3s_cmd
   remote_user: root
@@ -14,6 +21,7 @@
   roles:
     - common
     - k3s-linux
+    - k3s-config
 
 - hosts: k3s_workload
   remote_user: root

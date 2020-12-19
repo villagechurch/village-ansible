@@ -29,3 +29,13 @@
     name: nginx
     state: started
     enabled: yes
+
+- name: permit traffic in default zone for http & https services
+  ansible.posix.firewalld:
+    service:
+      - http
+      - https
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld

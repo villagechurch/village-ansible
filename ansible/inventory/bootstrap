@@ -1,8 +1,7 @@
 # host file for bootstrapping
 
 [bootstrap]
-narya ansible_host=192.168.0.17
-nenya ansible_host=192.168.0.18
+palantir0 ansible_host=192.168.0.3
 
 [bootstrap:vars]
 ansible_connection=paramiko
