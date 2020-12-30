@@ -2,9 +2,29 @@
 # file: roles/nginx/tasks/main.yml
 
 - name: Installing nginx
-  dnf:
+  package:
     name: nginx
     state: present
+  tags: first_run
+
+- name: be sure nginx is running and enabled
+  service:
+    name: nginx
+    state: started
+    enabled: yes
+  tags: first_run
+
+- name: permit traffic in default zone for http & https services
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items:
+    - http
+    - https
+  notify:
+    - restart firewalld
+  tags: first_run
 
 - name: Copy nginx configuration
   copy: 
@@ -13,6 +33,8 @@
     mode: 0644
   with_items:
     - nginx.conf
+  notify:
+    - restart nginx
 
 - name: Copy server block configuration
   copy: 
@@ -20,22 +42,6 @@
     dest: "/etc/nginx/conf.d/{{ item }}" 
     mode: 0644
   with_items:
-    - "{{ nginx_block_config }}"
+    - "{{ inventory_hostname }}_nginx.conf"
   notify:
     - restart nginx
-
-- name: be sure nginx is running and enabled
-  service:
-    name: nginx
-    state: started
-    enabled: yes
-
-- name: permit traffic in default zone for http & https services
-  ansible.posix.firewalld:
-    service:
-      - http
-      - https
-    permanent: yes
-    state: enabled
-  notify:
-    - restart firewalld

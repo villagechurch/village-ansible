@@ -1,0 +1,24 @@
+---
+# file: roles/k3s-config/tasks/main.yml
+
+- name: create config directory
+  file:
+    path: /etc/rancher/k3s
+    state: directory
+    mode: '0755'
+
+- name: copy hosts
+  copy: 
+    src: "{{ item }}"
+    dest: "/etc/rancher/k3s/config.yaml" 
+    mode: 0755
+  with_items:
+    - "{{ inventory_hostname }}_config.yml"
+
+- name: permit traffic in default zone for 8080
+  ansible.posix.firewalld:
+    port: 8080/tcp
+    permanent: yes
+    state: enabled
+  notify:
+    - restart firewalld

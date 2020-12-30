@@ -1,0 +1,10 @@
+---
+# file: roles/k3s-config/handlers/main.yml
+
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
+
+- name: reboot
+  reboot:

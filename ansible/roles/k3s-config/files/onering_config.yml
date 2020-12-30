@@ -1,0 +1,4 @@
+---
+cluster-init: true
+write-kubeconfig-mode: 644
+token: 6nAqTDv6rqb8iGL8
