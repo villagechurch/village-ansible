@@ -65,6 +65,20 @@
 #   - mlnx_ofed
 #   - mlnx_mft
 
+- hosts: ceph_vm_osds
+  remote_user: root
+  gather_facts: true
+  roles:
+    - common
+    - ceph-host
+
+- hosts: ceph_vm_hosts
+  remote_user: root
+  gather_facts: true
+  roles:
+    - common
+    - ceph-host
+
 #- hosts: cluster
 #  remote_user: root
 #  gather_facts: true

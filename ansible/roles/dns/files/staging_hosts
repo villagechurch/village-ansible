@@ -8,11 +8,9 @@
 
 #k3s_cmd
 192.168.0.6 onering
-
-#k3s_workload
-192.168.0.7 morgoth
-192.168.0.8 sauron
-192.168.0.9 saruman
+192.168.0.7 narya
+192.168.0.8 nenya
+192.168.0.9 vilya
 
 # ceph
 192.168.0.40 host-mgr0
@@ -20,24 +18,33 @@
 192.168.0.42 host-mon1
 192.168.0.43 host-mon2
 192.168.0.44 host-mon3
-192.168.0.45 host-rgw0
+192.168.0.45 vm-rgw0
 192.168.0.46 host-rgw1
 192.168.0.47 host-rgw2
 192.168.0.50 osd-hdd0
 192.168.0.51 osd-hdd1
-192.168.0.52 osd-ssd0
+192.168.0.52 vm-ssd0
 192.168.0.53 osd-hdd2
 192.168.0.54 osd-hdd3
 192.168.0.55 osd-ssd1
 192.168.0.56 osd-hdd4
 192.168.0.57 osd-hdd5
-192.168.0.58 osd-ssd2
+192.168.0.58 vm-ssd2
+
+#k3s_workload
+192.168.0.77 morgoth
+192.168.0.78 sauron
+192.168.0.79 saruman
 
 # compute nodes/vms
 192.168.0.70 hv0
 192.168.0.71 hv1
 192.168.0.72 hv2
-192.168.0.90 samba0
+192.168.0.82 samba0
+
+# load balanced domains
+192.168.0.3 smb
+192.168.0.6 rancher
 
 # For reference
 # https://villagechurch.atlassian.net/wiki/spaces/ITD/pages/530382882/Ceph+Networking

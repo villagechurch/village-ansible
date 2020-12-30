@@ -1,7 +1,7 @@
 # host file for bootstrapping
 
 [bootstrap]
-palantir0 ansible_host=192.168.0.3
+vm-ssd2 ansible_host=192.168.0.58
 
 [bootstrap:vars]
 ansible_connection=paramiko

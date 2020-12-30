@@ -16,8 +16,11 @@ ansible_user: root
 hostname: "{{ inventory_hostname }}"
 client_ip: "{{ ansible_host }}/23"
 storage_ip: "{{ storage_host }}/24"
+mgmt_ip: "{{ mgmt_host }}/24"
 
 ## define network
+mgmt_gw: "10.0.1.1"
+mgmt_dns4: "127.0.0.1"
 client_gw: "192.168.0.1"
 client_dns4: "192.168.0.2"
 storage_gw: "192.168.50.1"

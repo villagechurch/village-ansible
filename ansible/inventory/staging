@@ -5,17 +5,17 @@ dns0 ansible_host=192.168.0.2
 
 [k3s_cmd]
 onering ansible_host=192.168.0.6
+narya ansible_host=192.168.0.7
+nenya ansible_host=192.168.0.8
+vilya ansible_host=192.168.0.9
 
 [k3s_workload]
-morgoth ansible_host=192.168.0.7
-sauron ansible_host=192.168.0.8
-saruman ansible_host=192.168.0.9
 
 [samba]
 samba0 ansible_host=192.168.0.82
 
 [nginx]
-palantir ansible_host=192.168.0.3
+palantir0 ansible_host=192.168.0.3
 
 ## ceph hosts ##
 
@@ -33,13 +33,21 @@ osd-hdd1 ansible_host=192.168.0.51
 osd-hdd2 ansible_host=192.168.0.53
 
 [ceph_osds_ssd]
-osd-ssd0 ansible_host=192.168.0.52
-osd-ssd1 ansible_host=192.168.0.55
-osd-ssd2 ansible_host=192.168.0.58
+#osd-ssd1 ansible_host=192.168.0.55
+
+[ceph_vm_osds]
+#vm-ssd0 ansible_host=192.168.0.52
+vm-ssd2 ansible_host=192.168.0.58
+
+[ceph_vm_hosts]
+vm-rgw0 ansible_host=192.168.0.45
+#vm-rgw1 ansible_host=192.168.0.46
+#vm-rgw2 ansible_host=192.168.0.47
 
 [ceph_osds:children]
 ceph_osds_hdd
 ceph_osds_ssd
+ceph_vm_osds
 
 ## end ceph hosts ##
 
