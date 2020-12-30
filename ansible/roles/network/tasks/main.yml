@@ -10,6 +10,7 @@
       - python3-policycoreutils
     state: present
   when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "8"
+  tags: first_run
 
 - name: Install CentOS 7 network manager libs
   package:
@@ -20,6 +21,7 @@
       - policycoreutils-python
     state: present
   when: ansible_facts['distribution'] == "CentOS" and ansible_facts['distribution_major_version'] == "7"
+  tags: first_run
 
 - name: Try nmcli add teams
   community.general.nmcli:
@@ -46,6 +48,19 @@
     - "{{ nmcli_team_slave }}"
   when: team_result is succeeded and eth_type == "team"
   register: slave_result
+  notify:
+    - restart CentOS 8 network
+    - restart CentOS 7 network
+
+- name: ensure MTU is persistent
+  lineinfile:
+    path: "/etc/sysconfig/network-scripts/ifcfg-{{ item.conn_name }}"
+    regexp: '^MTU=9000'
+    line: 'MTU=9000'
+  with_items:
+    - "{{ nmcli_team }}"
+  when: team_result is succeeded and eth_type == "team"
+  ignore_errors: true
   notify:
     - restart CentOS 8 network
     - restart CentOS 7 network
