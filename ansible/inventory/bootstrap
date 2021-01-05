@@ -1,7 +1,7 @@
 # host file for bootstrapping
 
 [bootstrap]
-vm-ssd2 ansible_host=192.168.0.58
+vm-mgr0 ansible_host=192.168.0.44
 
 [bootstrap:vars]
 ansible_connection=paramiko

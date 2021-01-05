@@ -72,12 +72,13 @@
     - common
     - ceph-host
 
-- hosts: ceph_vm_hosts
+- hosts: ceph_vm_rgws
   remote_user: root
   gather_facts: true
   roles:
     - common
     - ceph-host
+    - ceph-rgw
 
 #- hosts: cluster
 #  remote_user: root

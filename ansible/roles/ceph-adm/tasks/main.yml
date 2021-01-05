@@ -15,7 +15,7 @@
   
 - name: fetch cephadm script
   get_url:
-    url: https://raw.githubusercontent.com/ceph/ceph/octopus/src/cephadm/cephadm
+    url: https://raw.githubusercontent.com/ceph/ceph/v15.2.8/src/cephadm/cephadm
     dest: /root/cephadm
     mode: '0770'
   notify:

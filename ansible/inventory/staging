@@ -21,6 +21,7 @@ palantir0 ansible_host=192.168.0.3
 
 [ceph_mgrs]
 host-mgr0 ansible_host=192.168.0.40
+vm-mgr0 ansible_host=192.168.0.44
 
 [ceph_mons]
 host-mon0 ansible_host=192.168.0.41
@@ -36,18 +37,23 @@ osd-hdd2 ansible_host=192.168.0.53
 #osd-ssd1 ansible_host=192.168.0.55
 
 [ceph_vm_osds]
-#vm-ssd0 ansible_host=192.168.0.52
-vm-ssd2 ansible_host=192.168.0.58
+#vm-ssd01 ansible_host=192.168.0.63
+#vm-ssd11 ansible_host=192.168.0.64
+#vm-ssd21 ansible_host=192.168.0.65
+vm-ssd31 ansible_host=192.168.0.66
+vm-ssd41 ansible_host=192.168.0.67
 
-[ceph_vm_hosts]
-vm-rgw0 ansible_host=192.168.0.45
-#vm-rgw1 ansible_host=192.168.0.46
-#vm-rgw2 ansible_host=192.168.0.47
+[ceph_vm_rgws]
+vm-rgw01 ansible_host=192.168.0.45
+vm-rgw11 ansible_host=192.168.0.46
+#vm-rgw21 ansible_host=192.168.0.47
+#vm-rgw31 ansible_host=192.168.0.48
+vm-rgw41 ansible_host=192.168.0.49
 
 [ceph_osds:children]
 ceph_osds_hdd
 ceph_osds_ssd
-ceph_vm_osds
+
 
 ## end ceph hosts ##
 

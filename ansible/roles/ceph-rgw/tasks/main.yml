@@ -1,0 +1,14 @@
+---
+# file: roles/ceph-rgw/tasks/main.yml
+
+- name: permit traffic in default zone for http & https services
+  ansible.posix.firewalld:
+    service: "{{ item }}"
+    permanent: yes
+    state: enabled
+  with_items:
+    - http
+    - https
+  notify:
+    - restart firewalld
+  tags: first_run

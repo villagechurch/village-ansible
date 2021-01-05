@@ -11,6 +11,7 @@
       - python3
     state: present
   become: yes
+  tags: first_run
 
 - name: get ssh key from cephadm
   command: "ceph cephadm get-pub-key"
@@ -18,6 +19,7 @@
   run_once: true
   register: cephadm_pubkey
   ignore_errors: true
+  tags: first_run
 
 #- name: show ssh key from cephadm
 #  debug:
@@ -29,3 +31,4 @@
     key: "{{ cephadm_pubkey.stdout }}"
     state: present
   when: cephadm_pubkey.changed
+  tags: first_run
