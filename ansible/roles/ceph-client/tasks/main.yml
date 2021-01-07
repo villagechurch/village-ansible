@@ -30,6 +30,7 @@
   run_once: true
   register: ceph_conf
   ignore_errors: true
+  tags: first_run
 
 - name: fetch ceph minimal config
   fetch: 
@@ -40,6 +41,7 @@
   run_once: true
   ignore_errors: true
   register: fetch_config
+  tags: first_run
 
 - name: copy ceph minimal config
   copy: 
@@ -47,12 +49,14 @@
     dest: "/etc/ceph/ceph.conf"
     mode: 0644
   ignore_errors: true
+  tags: first_run
 
 - name: create cephx user and get key
   shell: "ceph fs authorize village_general client.{{ inventory_hostname }} / rw | tee /root/ceph.client.{{ inventory_hostname }}.keyring"
   delegate_to: "{{ hostvars['host-mgr0'].ansible_host }}"
   run_once: true
   ignore_errors: true
+  tags: first_run
 
 - name: fetch ceph keyring
   fetch: 
@@ -63,6 +67,7 @@
   run_once: true
   ignore_errors: true
   register: fetch_config
+  tags: first_run
 
 - name: copy ceph keyring
   copy: 
@@ -70,9 +75,18 @@
     dest: "/etc/ceph/ceph.client.{{ inventory_hostname }}.keyring"
     mode: 0600
   ignore_errors: true
+  tags: first_run
+
+- name: symlink ceph keyring to generic keyring location
+  file:
+    src: "/etc/ceph/ceph.client.{{ inventory_hostname }}.keyring"
+    dest: "/etc/ceph/ceph.client.admin.keyring"
+    mode: 0600
+    state: link
 
 - name: enable ceph-fuse.target
   service:
     name: ceph-fuse.target
     state: started
     enabled: yes
+  tags: first_run

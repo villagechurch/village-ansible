@@ -51,13 +51,45 @@
     mode: '0755'
   tags: first_run
 
+# ** cephfs mount - rootdir ** #
+- name: create samba admin user
+  user:
+    name: "sadmin"
+    comment: "Village Samba Admin"
+    groups: "users"
+    shell: "/sbin/nologin"
+    state: present
+  register: user
+
+- name: create rootdir mount directory
+  file:
+    state: directory
+    path: "/mnt/ceph/rootdir"
+    owner: "root"
+    group: "users"
+    mode: "2775"
+
+- name: ensure ceph-fuse mount is persistent for rootdir
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^none    \/mnt\/ceph\/rootdir  fuse\.ceph ceph\.id={{ inventory_hostname }},ceph.client_mountpoint=\/,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
+    line: 'none    /mnt/ceph/rootdir  fuse.ceph ceph.id={{ inventory_hostname }},ceph.client_mountpoint=/,ceph.conf=/etc/ceph/ceph.conf,_netdev,defaults  0 0'
+  notify:
+    - remount all partitions
+  ignore_errors: true
 
 # ** cephfs mount - production ** #
-- name: create production user
+- name: Add group "production" to server
+  group:
+    name: production
+    gid: 1001
+    state: present
+
+- name: create general production user
   user:
     name: "production"
     comment: "Village Production"
-    groups: "users"
+    groups: "users,production"
     shell: "/sbin/nologin"
     state: present
   register: user
@@ -70,7 +102,7 @@
     group: "users"
     mode: "2775"
 
-- name: ensure ceph-fuse mount is persistent
+- name: ensure ceph-fuse mount is persistent for production
   lineinfile:
     path: /etc/fstab
     regexp: '^none    \/mnt\/ceph\/production  fuse\.ceph ceph\.id={{ inventory_hostname }},ceph.client_mountpoint=\/production,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
@@ -79,9 +111,43 @@
     - remount all partitions
   ignore_errors: true
 
+# ** cephfs mount - comms ** #
+- name: Add group "comms" to server
+  group:
+    name: comms
+    gid: 1003
+    state: present
+
+- name: create general comms user
+  user:
+    name: "comms"
+    comment: "Village Communications"
+    groups: "users,comms"
+    shell: "/sbin/nologin"
+    state: present
+  register: user
+
+- name: create comms mount directory
+  file:
+    state: directory
+    path: "/mnt/ceph/comms"
+    owner: "root"
+    group: "users"
+    mode: "2775"
+
+- name: ensure ceph-fuse mount is persistent for comms
+  lineinfile:
+    path: /etc/fstab
+    regexp: '^none    \/mnt\/ceph\/comms  fuse\.ceph ceph\.id={{ inventory_hostname }},ceph.client_mountpoint=\/comms,ceph\.conf=\/etc\/ceph\/ceph\.conf,_netdev,defaults  0 0'
+    line: 'none    /mnt/ceph/comms  fuse.ceph ceph.id={{ inventory_hostname }},ceph.client_mountpoint=/comms,ceph.conf=/etc/ceph/ceph.conf,_netdev,defaults  0 0'
+  notify:
+    - remount all partitions
+  ignore_errors: true
+
+
 - name: start ceph-fuse services
   service: 
-    name: "ceph-fuse@-mnt-ceph-production.service"
+    name: "ceph-fuse.target"
     state: started
     enabled: yes
   tags: first_run
