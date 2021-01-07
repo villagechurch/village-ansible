@@ -35,6 +35,13 @@
       - nss-mdns
       - sudo
       - python3
+      - firewalld
+
+- name: be sure firewalld is running and enabled
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
 
 - name: permit traffic in default zone for avahi service
   ansible.posix.firewalld:

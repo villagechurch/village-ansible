@@ -1,0 +1,24 @@
+---
+# file: roles/firewalld/tasks/main.yml
+
+- name: be sure packages are installed
+  package:
+    name: 
+      - firewalld
+    state: present
+  tags: first_run
+
+- name: be sure firewalld is running and enabled
+  service:
+    name: firewalld
+    state: started
+    enabled: yes
+  tags: first_run
+
+- name: get firewalld default zone config
+  command: "firewall-cmd --list-all"
+  register: firewalld_config
+
+- name: print firewalld default zone config
+  debug:
+    msg: "{{ firewalld.stdout_lines | list }}"

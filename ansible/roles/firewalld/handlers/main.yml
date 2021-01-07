@@ -1,0 +1,6 @@
+---
+# file: roles/firewalld/handlers/main.yml
+- name: restart firewalld
+  service:
+    name: firewalld
+    state: restarted
