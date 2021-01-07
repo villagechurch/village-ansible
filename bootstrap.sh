@@ -2,4 +2,5 @@
 
 cd ansible
 
-ansible-playbook -i inventory/bootstrap bootstrap.yml --ask-pass
+ansible-playbook -i inventory/bootstrap bootstrap.yml
+#ansible-playbook -i inventory/bootstrap bootstrap.yml --ask-pass

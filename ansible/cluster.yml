@@ -60,7 +60,7 @@
   gather_facts: true
   roles:
     - common
-#    - network
+    - network
     - ceph-host
 #   - mlnx_ofed
 #   - mlnx_mft

@@ -17,7 +17,13 @@ samba0 ansible_host=192.168.0.82
 [nginx]
 palantir0 ansible_host=192.168.0.3
 
-## ceph hosts ##
+## Digital Ocean Hosts ##
+
+[netbox]
+netbox ansible_host=134.122.37.138
+
+## end Digital Ocean Hosts ##
+## Ceph Cluster Hosts ##
 
 [ceph_mgrs]
 host-mgr0 ansible_host=192.168.0.40
@@ -29,9 +35,10 @@ host-mon1 ansible_host=192.168.0.42
 host-mon2 ansible_host=192.168.0.43
 
 [ceph_osds_hdd]
-osd-hdd0 ansible_host=192.168.0.50
-osd-hdd1 ansible_host=192.168.0.51
-osd-hdd2 ansible_host=192.168.0.53
+#osd-hdd0 ansible_host=192.168.0.50
+#osd-hdd1 ansible_host=192.168.0.51
+#osd-hdd2 ansible_host=192.168.0.53
+osd-hdd3 ansible_host=192.168.0.54
 
 [ceph_osds_ssd]
 #osd-ssd1 ansible_host=192.168.0.55
@@ -54,8 +61,7 @@ vm-rgw41 ansible_host=192.168.0.49
 ceph_osds_hdd
 ceph_osds_ssd
 
-
-## end ceph hosts ##
+## Ceph Cluster Hosts ##
 
 [staging:children]
 dns
