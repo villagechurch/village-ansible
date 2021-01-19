@@ -6,6 +6,15 @@
     name: 
       - chrony
       - bind-utils
+      - zsh
+      - nano
+      - nss-mdns
+      - sudo
+      - python3
+      - firewalld
+      - pciutils
+      - firewalld
+      - lshw
     state: present
   tags: first_run
 

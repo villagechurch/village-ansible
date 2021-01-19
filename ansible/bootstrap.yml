@@ -6,9 +6,10 @@
   gather_facts: true
   roles:
     - bootstrap
+    - network
 
-- hosts: bootstrap_proxmox
-  remote_user: root
-  gather_facts: false
-  roles:
-    - bootstrap-proxmox
+#- hosts: bootstrap_proxmox
+#  remote_user: root
+#  gather_facts: false
+#  roles:
+#    - bootstrap-proxmox

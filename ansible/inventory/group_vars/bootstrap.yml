@@ -1,0 +1,39 @@
+---
+# file: group_vars/ceph_mons.yml
+
+## system vars
+storage_host: "192.168.50.{{ ansible_host | regex_replace('192.168.0.') }}"
+mgmt_host: "10.0.1.{{ ansible_host | regex_replace('192.168.0.') }}"
+
+## add ethernet interface
+eth_type: "team"
+
+## team vars
+nmcli_team:
+  - conn_name: mgmt
+    ip4: "{{ mgmt_ip }}"
+    gw4: "{{ mgmt_gw }}"
+    dns4: "{{ mgmt_dns4 }}"
+    mtu: 9000
+  - conn_name: client-side
+    ip4: "{{ client_ip }}"
+    gw4: "{{ client_gw }}"
+    dns4: "{{ client_dns4 }}"
+    mtu: 9000
+  - conn_name: storage-side
+    ip4: "{{ storage_ip }}"
+    gw4: "{{ storage_gw }}"
+    dns4: "127.0.0.1"
+    mtu: 9000
+
+## add team interface
+nmcli_team_slave:
+  - conn_name: mgmt-slave-eno1
+    ifname: eno1
+    master: mgmt
+  - conn_name: client-slave-enp131s0f0
+    ifname: enp131s0f0
+    master: client-side
+  - conn_name: storage-slave-enp131s0f1
+    ifname: enp131s0f1
+    master: storage-side

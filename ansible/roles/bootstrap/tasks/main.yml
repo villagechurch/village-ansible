@@ -1,6 +1,16 @@
 ---
 # file: roles/bootstrap/tasks/main.yml
 
+- name: set hostname
+  hostname:
+    name: "{{ hostname }}"
+
+- name: add FQDN line to /etc/hosts
+  lineinfile:
+    path: /etc/hosts
+    line: "127.0.0.1   {{ hostname }}.thisisvillage.church {{ hostname }}"
+    state: present
+
 - name: centos install essentials
   package:
     name:
@@ -36,6 +46,8 @@
       - sudo
       - python3
       - firewalld
+      - pciutils
+      - lshw
 
 - name: be sure firewalld is running and enabled
   service:
