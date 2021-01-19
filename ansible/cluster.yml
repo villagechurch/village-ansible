@@ -5,7 +5,6 @@
   gather_facts: true
   roles:
     - common
-    - network
     - dns
     
 - hosts: nginx
@@ -38,12 +37,21 @@
     - ceph-client
     - samba-vfsceph
 
+- hosts: netbox
+  remote_user: root
+  gather_facts: true
+  roles:
+    - common
+    - firewalld
+    - redis
+
+## Ceph Cluster Roles ##
+
 - hosts: ceph_mgrs
   remote_user: root
   gather_facts: true
   roles:
     - common
-#    - network
     - ceph-adm
     - ceph-host
 
@@ -52,7 +60,6 @@
   gather_facts: true
   roles:
     - common
-#    - network
     - ceph-host
 
 - hosts: ceph_osds
@@ -60,7 +67,6 @@
   gather_facts: true
   roles:
     - common
-    - network
     - ceph-host
 #   - mlnx_ofed
 #   - mlnx_mft
@@ -79,9 +85,3 @@
     - common
     - ceph-host
     - ceph-rgw
-
-#- hosts: cluster
-#  remote_user: root
-#  gather_facts: true
-#  roles:
-#    - cluster
