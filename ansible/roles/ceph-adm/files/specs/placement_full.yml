@@ -81,7 +81,7 @@ service_type: osd
 service_id: dashboard-admin-1607185109442
 service_name: osd.dashboard-admin-1607185109442
 placement:
-  host_pattern: '*'
+  host_pattern: osd-hdd[0-2]
 spec:
   data_devices:
     model: HUH72808CLAR8000
@@ -89,6 +89,33 @@ spec:
   objectstore: bluestore
   wal_devices:
     model: INTEL SSDSC2BB48
+---
+service_type: osd
+service_id: dashboard-admin-1609904897379
+service_name: osd.dashboard-admin-1609904897379
+placement:
+  host_pattern: osd-hdd3
+spec:
+  data_devices:
+    model: ST8000NM0055-1RM
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+---
+service_type: osd
+service_id: dashboard-admin-1610647856472
+service_name: osd.dashboard-admin-1610647856472
+placement:
+  host_pattern: osd-hdd[4-5]
+spec:
+  data_devices:
+    size: 7TB:8TB
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+  wal_slots: 3
 ---
 service_type: prometheus
 service_name: prometheus
@@ -100,7 +127,7 @@ service_id: village.ca-west-1
 service_name: rgw.village.ca-west-1
 placement:
   count: 3
-  host_pattern: osd-ssd*
+  label: rgw
 spec:
   rgw_realm: village
   rgw_zone: ca-west-1

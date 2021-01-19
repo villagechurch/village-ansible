@@ -1,0 +1,15 @@
+## SERVICE SPECIFIC SPECS ##
+---
+service_type: osd
+service_id: dashboard-admin-1610647856472
+service_name: osd.dashboard-admin-1610647856472
+placement:
+  host_pattern: "osd-hdd5"
+spec:
+  data_devices:
+    size: 7.3TB
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+  wal_slots: 3
