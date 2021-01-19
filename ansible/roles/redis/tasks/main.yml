@@ -1,0 +1,16 @@
+---
+# file: roles/redis/tasks/main.yml
+
+- name: be sure packages are installed
+  package:
+    name: 
+      - redis
+    state: present
+  tags: first_run
+
+- name: be sure redis is running and enabled
+  service:
+    name: redis
+    state: started
+    enabled: yes
+  tags: first_run

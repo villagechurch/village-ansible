@@ -1,0 +1,65 @@
+---
+# file: roles/netbox/tasks/main.yml
+
+- name: be sure packages and dependencies are installed
+  package:
+    name: 
+      - gcc
+      - python36
+      - python36-devel
+      - python3-pip
+      - libxml2-devel
+      - libxslt-devel
+      - libffi-devel
+      - openssl-devel
+      - redhat-rpm-config
+    state: present
+  tags: first_run
+  
+- name: pip self-update
+  pip:
+    name: pip
+    state: latest
+
+- name: "fetch and unarchive netbox {{ netbox_version }}"
+  unarchive:
+    src: "https://github.com/netbox-community/netbox/archive/{{ netbox_version }}.tar.gz"
+    dest: /opt
+    remote_src: yes
+    mode: 0755
+
+- name: symlink release to generic netbox location
+  file:
+    src: "/opt/{{ netbox_version }}"
+    dest: "/opt/netbox"
+    mode: 0755
+    state: link
+
+- name: Add netbox system group
+  group:
+    name: netbox
+    system: yes
+    state: present
+
+- name: create netbox user
+  user:
+    name: "netbox"
+    comment: "Netbox System User"
+    groups: netbox
+    system: yes
+    state: present
+
+- name: change ownership of /opt/netbox/netbox/media/
+  file:
+    path: /opt/netbox/netbox/media/
+    state: directory
+    recurse: yes
+    owner: netbox
+
+- name: copy netbox config
+  copy: 
+    src: "{{ item }}"
+    dest: "/opt/netbox/netbox/netbox/{{ item }}" 
+    mode: 0660
+  with_items:
+    - configuration.py
