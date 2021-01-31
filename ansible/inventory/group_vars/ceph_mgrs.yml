@@ -1,0 +1,5 @@
+---
+# file: group_vars/ceph_mgrs.yml
+
+## note the inventory_hostname of the primary manager (probably the node that bootstrapped the cluster)"
+primary_mgr: "host-mgr0"
