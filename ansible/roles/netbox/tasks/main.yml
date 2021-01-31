@@ -15,31 +15,41 @@
       - redhat-rpm-config
     state: present
   tags: first_run
+
+- name: update python alias in bashrc
+  lineinfile:
+    path: /root/.bashrc
+    line: 'alias python="/usr/bin/python3"'
+    state: present
+  tags: first_run
   
 - name: pip self-update
   pip:
     name: pip
+    executable: pip3
     state: latest
 
 - name: "fetch and unarchive netbox {{ netbox_version }}"
   unarchive:
-    src: "https://github.com/netbox-community/netbox/archive/{{ netbox_version }}.tar.gz"
+    src: "https://github.com/netbox-community/netbox/archive/v{{ netbox_version }}.tar.gz"
     dest: /opt
     remote_src: yes
     mode: 0755
 
 - name: symlink release to generic netbox location
   file:
-    src: "/opt/{{ netbox_version }}"
+    src: "/opt/netbox-{{ netbox_version }}"
     dest: "/opt/netbox"
     mode: 0755
     state: link
+  tags: first_run
 
 - name: Add netbox system group
   group:
     name: netbox
     system: yes
     state: present
+  tags: first_run
 
 - name: create netbox user
   user:
@@ -48,6 +58,7 @@
     groups: netbox
     system: yes
     state: present
+  tags: first_run
 
 - name: change ownership of /opt/netbox/netbox/media/
   file:
@@ -55,11 +66,24 @@
     state: directory
     recurse: yes
     owner: netbox
+  tags: first_run
 
 - name: copy netbox config
   copy: 
     src: "{{ item }}"
-    dest: "/opt/netbox/netbox/netbox/{{ item }}" 
+    dest: "/opt/netbox/netbox/netbox/{{ item }}"
     mode: 0660
   with_items:
     - configuration.py
+
+- name: copy netbox local_requirements.txt
+  copy: 
+    src: "{{ item }}"
+    dest: "/opt/netbox/{{ item }}"
+    mode: 0660
+  with_items:
+    - local_requirements.txt
+
+- name: run netbox upgrade script
+  command: "/opt/netbox/upgrade.sh"
+  tags: first_run

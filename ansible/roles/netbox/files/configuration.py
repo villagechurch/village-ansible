@@ -8,16 +8,16 @@
 # access to the server via any other hostnames. The first FQDN in the list will be treated as the preferred name.
 #
 # Example: ALLOWED_HOSTS = ['netbox.example.com', 'netbox.internal.local']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['netbox.thisisvillage.church']
 
 # PostgreSQL database configuration. See the Django documentation for a complete list of available parameters:
 #   https://docs.djangoproject.com/en/stable/ref/settings/#databases
 DATABASE = {
     'NAME': 'netbox',         # Database name
-    'USER': '',               # PostgreSQL username
-    'PASSWORD': '',           # PostgreSQL password
-    'HOST': 'localhost',      # Database server
-    'PORT': '',               # Database port (leave blank for default)
+    'USER': 'netbox',               # PostgreSQL username
+    'PASSWORD': 'dct8oi139f1oh496',           # PostgreSQL password
+    'HOST': 'private-db-postgresql-tor1-72534-do-user-4180240-0.b.db.ondigitalocean.com',      # Database server
+    'PORT': '25060',               # Database port (leave blank for default)
     'CONN_MAX_AGE': 300,      # Max database connection age
 }
 
@@ -51,7 +51,7 @@ REDIS = {
 # For optimal security, SECRET_KEY should be at least 50 characters in length and contain a mix of letters, numbers, and
 # symbols. NetBox will not run without this defined. For more information, see
 # https://docs.djangoproject.com/en/stable/ref/settings/#std:setting-SECRET_KEY
-SECRET_KEY = ''
+SECRET_KEY = 'zQ4EA9s7gjJc9roD@2GkpP_DvhvdnRU7BQwdR.Z.QAEn2v*M!k'
 
 
 #########################
@@ -63,7 +63,7 @@ SECRET_KEY = ''
 # Specify one or more name and email address tuples representing NetBox administrators. These people will be notified of
 # application errors (assuming correct email settings are provided).
 ADMINS = [
-    # ['John Doe', 'jdoe@example.com'],
+    ['Village Administrator', 'administrator@thisisvillagechurch.com'],
 ]
 
 # URL schemes that are allowed within links in NetBox
@@ -145,7 +145,7 @@ LOGGING = {}
 
 # Setting this to True will permit only authenticated users to access any part of NetBox. By default, anonymous users
 # are permitted to access most data in NetBox (excluding secrets) but not make any changes.
-LOGIN_REQUIRED = False
+LOGIN_REQUIRED = True
 
 # The length of time (in seconds) for which a user will remain logged into the web UI before being prompted to
 # re-authenticate. (Default: 1209600 [14 days])
@@ -165,16 +165,17 @@ MAX_PAGE_SIZE = 1000
 
 # By default uploaded media is stored on the local filesystem. Using Django-storages is also supported. Provide the
 # class path of the storage driver in STORAGE_BACKEND and any configuration options in STORAGE_CONFIG. For example:
-# STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage'
-# STORAGE_CONFIG = {
-#     'AWS_ACCESS_KEY_ID': 'Key ID',
-#     'AWS_SECRET_ACCESS_KEY': 'Secret',
-#     'AWS_STORAGE_BUCKET_NAME': 'netbox',
-#     'AWS_S3_REGION_NAME': 'eu-west-1',
-# }
+STORAGE_BACKEND = 'storages.backends.s3boto3.S3Boto3Storage'
+STORAGE_CONFIG = {
+    'AWS_ACCESS_KEY_ID': '2MHGGOUMEFMHGP6B7TCX',
+    'AWS_SECRET_ACCESS_KEY': 'myNRwORVJyPtH58q5nJZFuy4efV0Mj7xKrKxDLlwqXw',
+    'AWS_STORAGE_BUCKET_NAME': 'netbox',
+    'AWS_S3_ENDPOINT_URL': 'https://nyc3.digitaloceanspaces.com',
+    'AWS_S3_REGION_NAME': 'nyc3',
+}
 
 # Expose Prometheus monitoring metrics at the HTTP endpoint '/metrics'
-METRICS_ENABLED = False
+METRICS_ENABLED = True
 
 # Credentials that NetBox will uses to authenticate to devices when connecting via NAPALM.
 NAPALM_USERNAME = ''
