@@ -21,4 +21,4 @@
 
 - name: print firewalld default zone config
   debug:
-    msg: "{{ firewalld.stdout_lines | list }}"
+    msg: "{{ firewalld_config.stdout_lines | list }}"

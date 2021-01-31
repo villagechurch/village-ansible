@@ -6,13 +6,14 @@
     name:
       - dnsmasq
       - bind-utils
+  tags: first_run
 
 - name: be sure dnsmasq is running and enabled
   service:
     name: dnsmasq
     state: started
     enabled: yes
-  tags: dnsmasq
+  tags: first_run
 
 - name: copy dnsmasq config
   copy: 
@@ -41,4 +42,5 @@
     state: enabled
   notify:
     - restart firewalld
+  tags: first_run
 
