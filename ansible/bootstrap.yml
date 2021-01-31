@@ -8,6 +8,12 @@
     - bootstrap
     - network
 
+- hosts: bootstrap_cloud
+  remote_user: root
+  gather_facts: true
+  roles:
+    - bootstrap
+
 #- hosts: bootstrap_proxmox
 #  remote_user: root
 #  gather_facts: false

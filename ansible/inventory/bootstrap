@@ -1,8 +1,15 @@
 # host file for bootstrapping
 
 [bootstrap]
-osd-hdd5 ansible_host=192.168.0.57
+osd-hdd6 ansible_host=192.168.0.58
 ## make sure you put the appropriate network config in group_vars/bootstrap.yml
 
-[bootstrap:vars]
+[bootstrap_cloud]
+netbox0 ansible_host=134.122.37.138
+
+[strap:children]
+bootstrap
+bootstrap_cloud
+
+[strap:vars]
 ansible_connection=paramiko

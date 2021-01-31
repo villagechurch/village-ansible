@@ -5,8 +5,11 @@
 storage_host: "192.168.50.{{ ansible_host | regex_replace('192.168.0.') }}"
 mgmt_host: "10.0.1.{{ ansible_host | regex_replace('192.168.0.') }}"
 
-## add ethernet interface
+## add ethernet interface 'team' or 'eth'
 eth_type: "team"
+
+## eth vars
+client_ifname: "eth0"
 
 ## team vars
 nmcli_team:
