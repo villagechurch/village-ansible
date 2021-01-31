@@ -3,4 +3,4 @@
 # vars in this file will override group_vars/all.yml
 
 ## version number in format "v2.10.3"
-netbox_version: "v2.10.3"
+netbox_version: "2.10.3"
