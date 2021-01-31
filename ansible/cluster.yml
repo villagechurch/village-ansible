@@ -7,12 +7,12 @@
     - common
     - dns
     
-- hosts: nginx
+- hosts: load_balancers
   remote_user: root
   gather_facts: true
   roles:
     - common
-    - nginx
+    - traefik
 
 - hosts: k3s_cmd
   remote_user: root
@@ -44,6 +44,7 @@
     - common
     - firewalld
     - redis
+    - netbox
 
 ## Ceph Cluster Roles ##
 
@@ -52,7 +53,7 @@
   gather_facts: true
   roles:
     - common
-    - ceph-adm
+    - ceph-mgr
     - ceph-host
 
 - hosts: ceph_mons

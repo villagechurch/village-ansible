@@ -14,8 +14,8 @@ vilya ansible_host=192.168.0.9
 [samba]
 samba0 ansible_host=192.168.0.82
 
-[nginx]
-palantir0 ansible_host=192.168.0.3
+[load_balancers]
+traefik0 ansible_host=192.168.0.3
 
 ## Digital Ocean Hosts ##
 
@@ -27,12 +27,13 @@ netbox0 ansible_host=134.122.37.138
 
 [ceph_mgrs]
 host-mgr0 ansible_host=192.168.0.40
-#vm-mgr0 ansible_host=192.168.0.44
+vm-mgr21 ansible_host=192.168.0.44
 
 [ceph_mons]
 host-mon0 ansible_host=192.168.0.41
 host-mon1 ansible_host=192.168.0.42
 host-mon2 ansible_host=192.168.0.43
+vm-mon31 ansible_host=192.168.0.68
 
 [ceph_osds_hdd]
 #osd-hdd0 ansible_host=192.168.0.50
@@ -40,7 +41,8 @@ host-mon2 ansible_host=192.168.0.43
 #osd-hdd2 ansible_host=192.168.0.53
 #osd-hdd3 ansible_host=192.168.0.54
 #osd-hdd4 ansible_host=192.168.0.56
-osd-hdd5 ansible_host=192.168.0.57
+#osd-hdd5 ansible_host=192.168.0.57
+osd-hdd6 ansible_host=192.168.0.58
 
 [ceph_osds_ssd]
 #osd-ssd1 ansible_host=192.168.0.55
@@ -70,7 +72,6 @@ dns
 k3s_cmd
 k3s_workload
 samba
-nginx
 
 [staging:vars]
 file_prefix=staging
