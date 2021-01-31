@@ -1,0 +1,26 @@
+---
+# file: roles/cephadm/tasks/main.yml
+
+- name: check for pre-requisites
+  package:
+    name:
+      - systemd
+      - podman
+      - chrony
+      - lvm2
+      - python3
+    state: present
+  become: yes
+  tags: first_run
+  
+- name: fetch cephadm script
+  get_url:
+    url: https://raw.githubusercontent.com/ceph/ceph/v15.2.8/src/cephadm/cephadm
+    dest: /root/cephadm
+    mode: '0770'
+  notify:
+    - create ceph directory
+    - add ceph repo
+    - install cephadm
+    - install ceph-common
+  tags: first_run

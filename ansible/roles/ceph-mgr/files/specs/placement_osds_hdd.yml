@@ -1,0 +1,82 @@
+# Many hosts can be added at once using ceph orch apply -i placement_sepc.yml
+
+## HOST SPECIFIC SPECS ##
+---
+# Intel 2TB NVMe
+service_type: osd
+service_id: dashboard-admin-1607145479668
+service_name: osd.dashboard-admin-1607145479668
+placement:
+  host_pattern: '*'
+spec:
+  data_devices:
+    model: INTEL SSDPE2MX020T7
+  filter_logic: AND
+  objectstore: bluestore
+---
+# Samsung 3.84 NVMe
+service_type: osd
+service_id: dashboard-admin-1607145929356
+service_name: osd.dashboard-admin-1607145929356
+placement:
+  host_pattern: '*'
+spec:
+  data_devices:
+    model: SAMSUNG MZQLB3T8HALS-00007
+  filter_logic: AND
+  objectstore: bluestore
+---
+# Intel 1.6TB NVMe
+service_type: osd
+service_id: dashboard-admin-1607184883775
+service_name: osd.dashboard-admin-1607184883775
+placement:
+  host_pattern: '*'
+spec:
+  data_devices:
+    model: INTEL SSDPEDME016T4S
+  filter_logic: AND
+  objectstore: bluestore
+---
+# HGST HDD + Intel SSD
+service_type: osd
+service_id: dashboard-admin-1607185109442
+service_name: osd.dashboard-admin-1607185109442
+placement:
+  host_pattern: 'osd-hdd[0-2]'
+spec:
+  data_devices:
+    model: HUH72808CLAR8000
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+---
+# Seagate HDD + Intel SSD
+service_type: osd
+service_id: dashboard-admin-1609904897379
+service_name: osd.dashboard-admin-1609904897379
+placement:
+  host_pattern: 'osd-hdd3'
+spec:
+  data_devices:
+    model: ST8000NM0055-1RM
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+---
+# 7.3TB HDD + Intel SSD with slots
+service_type: osd
+service_id: dashboard-admin-1610647856472
+service_name: osd.dashboard-admin-1610647856472
+placement:
+  host_pattern: 'osd-hdd[4-5]'
+spec:
+  data_devices:
+    size: 7TB:8TB
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+  wal_slots: 3

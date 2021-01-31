@@ -1,0 +1,6 @@
+Host *
+  User root
+  IdentityFile /root/.ssh/ceph.key
+  StrictHostKeyChecking no
+  UserKnownHostsFile /dev/null
+  ConnectTimeout=30

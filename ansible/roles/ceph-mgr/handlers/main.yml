@@ -1,0 +1,38 @@
+---
+# file: roles/nginx/handlers/main.yml
+
+# Install handlers
+- name: create ceph directory
+  file:
+    path: /etc/ceph
+    state: directory
+    mode: '0755'
+
+- name: add ceph repo
+  command: "/root/cephadm add-repo --release octopus"
+
+- name: install cephadm
+  command: "/root/cephadm install"
+
+- name: install ceph-common
+  command: "/root/cephadm install ceph-common"
+
+# Post Install handlers
+- name: update ceph ssh config
+  command: "ceph cephadm set-ssh-config -i /root/.ssh/config"
+
+- name: copy ssh config
+  copy: 
+    src: "ssh_config"
+    dest: "/root/.ssh/config" 
+    mode: 0600
+
+- name: copy ssh private key to root
+  shell: "ceph config-key get mgr/cephadm/ssh_identity_key > /root/.ssh/ceph.key"
+
+- name: check ssh private key permissions
+  file:
+    path: /root/.ssh/ceph.key
+    owner: root
+    group: root
+    mode: '0600'

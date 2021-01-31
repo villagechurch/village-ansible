@@ -1,0 +1,17 @@
+# Many hosts can be added at once using ceph orch apply -i placement_sepc.yml
+
+## HOST SPECIFIC SPECS ##
+---
+service_type: host
+addr: osd-ssd0
+hostname: osd-ssd0
+
+---
+service_type: host
+addr: osd-ssd1
+hostname: osd-ssd1
+
+---
+service_type: host
+addr: osd-ssd2
+hostname: osd-ssd2

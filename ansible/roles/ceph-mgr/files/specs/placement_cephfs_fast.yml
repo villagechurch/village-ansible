@@ -1,0 +1,7 @@
+## SERVICE SPECIFIC SPECS ##
+---
+service_type: mds
+service_id: village_fast
+placement:
+  count: 2
+  host_pattern: "osd-ssd*"

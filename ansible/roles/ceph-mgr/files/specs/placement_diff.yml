@@ -1,0 +1,133 @@
+# Many hosts can be added at once using ceph orch apply -i placement_sepc.yml
+
+## HOST SPECIFIC SPECS ##
+---
+service_type: alertmanager
+service_name: alertmanager
+placement:
+  count: 1
+---
+service_type: crash
+service_name: crash
+placement:
+  host_pattern: '*'
+---
+service_type: grafana
+service_name: grafana
+placement:
+  count: 1
+---
+service_type: mds
+service_id: village_general
+service_name: mds.village_general
+placement:
+  count: 2
+  label: mon
+---
+service_type: mgr
+service_name: mgr
+placement:
+  count: 1
+  hosts:
+  - hostname: host-mgr0
+    name: ''
+    network: ''
+---
+service_type: mon
+service_name: mon
+placement:
+  count: 4
+  label: mon
+---
+service_type: node-exporter
+service_name: node-exporter
+placement:
+  host_pattern: '*'
+---
+service_type: osd
+service_id: dashboard-admin-1607145479668
+service_name: osd.dashboard-admin-1607145479668
+placement:
+  host_pattern: '*'
+spec:
+  data_devices:
+    model: INTEL SSDPE2MX020T7
+  filter_logic: AND
+  objectstore: bluestore
+---
+service_type: osd
+service_id: dashboard-admin-1607145929356
+service_name: osd.dashboard-admin-1607145929356
+placement:
+  host_pattern: '*'
+spec:
+  data_devices:
+    model: SAMSUNG MZQLB3T8HALS-00007
+  filter_logic: AND
+  objectstore: bluestore
+---
+service_type: osd
+service_id: dashboard-admin-1607184883775
+service_name: osd.dashboard-admin-1607184883775
+placement:
+  host_pattern: '*'
+spec:
+  data_devices:
+    model: INTEL SSDPEDME016T4S
+  filter_logic: AND
+  objectstore: bluestore
+---
+service_type: osd
+service_id: dashboard-admin-1607185109442
+service_name: osd.dashboard-admin-1607185109442
+placement:
+  host_pattern: osd-hdd[0-3]
+spec:
+  data_devices:
+    model: HUH72808CLAR8000
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+---
+service_type: osd
+service_id: dashboard-admin-1609904897379
+service_name: osd.dashboard-admin-1609904897379
+placement:
+  host_pattern: '*'
+spec:
+  data_devices:
+    model: ST8000NM0055-1RM
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+---
+service_type: osd
+service_id: dashboard-admin-1610647856472
+service_name: osd.dashboard-admin-1610647856472
+placement:
+  host_pattern: osd-hdd[4-5]
+spec:
+  data_devices:
+    size: 7.3TB
+  filter_logic: AND
+  objectstore: bluestore
+  wal_devices:
+    model: INTEL SSDSC2BB48
+  wal_slots: 3
+---
+service_type: prometheus
+service_name: prometheus
+placement:
+  count: 1
+---
+service_type: rgw
+service_id: village.ca-west-1
+service_name: rgw.village.ca-west-1
+placement:
+  count: 3
+  label: rgw
+spec:
+  rgw_realm: village
+  rgw_zone: ca-west-1

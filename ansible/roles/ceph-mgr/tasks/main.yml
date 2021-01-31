@@ -1,0 +1,68 @@
+---
+# file: roles/cephadm/tasks/main.yml
+
+- name: check for pre-requisites
+  package:
+    name:
+      - systemd
+      - podman
+      - chrony
+      - lvm2
+      - python3
+    state: present
+  become: yes
+  tags: first_run
+  
+- name: fetch cephadm script
+  get_url:
+    url: https://raw.githubusercontent.com/ceph/ceph/v15.2.8/src/cephadm/cephadm
+    dest: /root/cephadm
+    mode: '0770'
+  notify:
+    - create ceph directory
+    - add ceph repo
+    - install cephadm
+    - install ceph-common
+  tags: first_run
+
+- name: fetch /etc/ceph
+  fetch: 
+    src: "/etc/ceph/{{ item }}"
+    dest: "/tmp/fetched/ceph/{{ item }}"
+    flat: "yes"
+  delegate_to: "{{ groups['ceph_mgrs'][0] }}"
+  run_once: true
+  with_items:
+    - "ceph.client.admin.keyring"
+    - "ceph.conf"
+    - "ceph.pub"
+    - "rbdmap"
+  tags: first_run
+
+- name: force all notified handlers to run at this point
+  meta: flush_handlers
+
+- name: copy /etc/ceph
+  copy:
+    src: "{{ item.src }}"
+    dest: "{{ item.dest }}"
+    mode: "{{ item.mode }}"
+  with_items:
+    - { src: '/tmp/fetched/ceph/ceph.client.admin.keyring',dest: '/etc/ceph/ceph.client.admin.keyring', mode: '0600'}
+    - { src: '/tmp/fetched/ceph/ceph.conf',dest: '/etc/ceph/ceph.conf', mode: '0644'}
+    - { src: '/tmp/fetched/ceph/ceph.pub',dest: '/etc/ceph/ceph.pub', mode: '0644'}
+    - { src: '/tmp/fetched/ceph/rbdmap',dest: '/etc/ceph/rbdmap', mode: '0644'}
+  when: inventory_hostname != primary_mgr
+  notify:
+    - update ceph ssh config
+    - copy ssh config
+    - copy ssh private key to root
+    - check ssh private key permissions
+  tags: first_run
+
+- name: copy host service spec
+  copy: 
+    src: "specs"
+    dest: "/root/" 
+    mode: 0655
+    directory_mode:

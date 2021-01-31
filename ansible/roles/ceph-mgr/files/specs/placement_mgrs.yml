@@ -1,0 +1,10 @@
+# Many hosts can be added at once using ceph orch apply -i placement_sepc.yml
+
+## HOST SPECIFIC SPECS ##
+---
+service_type: host
+addr: host-mgr0
+hostname: host-mgr0
+labels:
+- mon
+- mgr
